@@ -15,9 +15,7 @@ import co.com.ceiba.parqueadero.interfaces.IParqueadero;
 @RestController
 @RequestMapping(value = "/parqueadero", headers = {
 	"accept=application/json",
-    "content-type=application/json",
-	"content-type=text/plain",
-	"content-type=text/html"
+    "content-type=application/json"
 })
 public class ParqueaderoApi {
 	

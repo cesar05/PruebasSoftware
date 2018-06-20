@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.dao;
+package co.com.ceiba.parqueadero.logic;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,7 @@ import co.com.ceiba.parqueadero.dominio.Parqueadero;
 import co.com.ceiba.parqueadero.interfaces.IParqueadero;
 
 @Component
-public class ParqueaderoDAO implements IParqueadero{
+public class ParqueaderoLogic implements IParqueadero{
 
 	@Override
 	public boolean nuevo(Parqueadero p) {

@@ -1,11 +1,11 @@
-package co.com.ceiba.parqueadero.dao;
+package co.com.ceiba.parqueadero.logic;
 
 import java.util.List;
 
 import co.com.ceiba.parqueadero.dominio.Restriccion;
 import co.com.ceiba.parqueadero.interfaces.IRestriccion;
 
-public class RestriccionDAO implements IRestriccion{
+public class RestriccionLogic implements IRestriccion{
 
 	@Override
 	public List<Restriccion> consultar() {
