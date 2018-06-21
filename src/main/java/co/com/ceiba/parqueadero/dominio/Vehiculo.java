@@ -1,14 +1,12 @@
 package co.com.ceiba.parqueadero.dominio;
 
 public abstract class Vehiculo {
-	private String placa;
-	private String color;
+	private String placa;	
 	private int cilindraje;
 	
-	public Vehiculo(String placa, String color, int cilindraje) {
+	public Vehiculo(String placa, int cilindraje) {
 		super();
-		this.placa = placa;
-		this.color = color;
+		this.placa = placa;		
 		this.cilindraje = cilindraje;
 	}
 	
@@ -17,13 +15,7 @@ public abstract class Vehiculo {
 	}
 	public void setPlaca(String placa) {
 		this.placa = placa;
-	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
+	}	
 	public int getCilindraje() {
 		return cilindraje;
 	}

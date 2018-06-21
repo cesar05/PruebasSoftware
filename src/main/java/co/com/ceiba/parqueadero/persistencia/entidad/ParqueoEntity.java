@@ -1,5 +1,7 @@
 package co.com.ceiba.parqueadero.persistencia.entidad;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
-import org.joda.time.DateTime;
 
 @Entity(name = "Parqueo")
 @NamedQuery(name = "Parqueo.findByIsbn", query = "SELECT parqueo FROM Parqueo parqueo WHERE parqueo.id = :id")
@@ -18,8 +19,8 @@ public class ParqueoEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private DateTime fechaIngreso;	
-	private DateTime fechaSalida;
+	private Date fechaIngreso;	
+	private Date fechaSalida;
 	private double valorPagar;
 	
 	@ManyToOne
@@ -33,16 +34,16 @@ public class ParqueoEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public DateTime getFechaIngreso() {
+	public Date getFechaIngreso() {
 		return fechaIngreso;
 	}
-	public void setFechaIngreso(DateTime fechaIngreso) {
+	public void setFechaIngreso(Date fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
 	}
-	public DateTime getFechaSalida() {
+	public Date getFechaSalida() {
 		return fechaSalida;
 	}
-	public void setFechaSalida(DateTime fechaSalida) {
+	public void setFechaSalida(Date fechaSalida) {
 		this.fechaSalida = fechaSalida;
 	}
 	public double getValorPagar() {

@@ -21,7 +21,7 @@ public class ParqueaderoApi {
 	
 	@Autowired
 	IParqueadero iParqueadero;
-	
+	/*
 	@RequestMapping(method=RequestMethod.GET)
 	public List<Vehiculo> get(){
 		List<Vehiculo> lista=new ArrayList<>();
@@ -45,5 +45,5 @@ public class ParqueaderoApi {
 	public String delete(){
 		Vehiculo a=new Moto("abc-123","delete",500);
 		return a.getColor();		
-	}
+	}*/
 }

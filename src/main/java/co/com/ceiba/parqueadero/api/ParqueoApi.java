@@ -28,15 +28,14 @@ public class ParqueoApi {
 	public String ingresarMoto(@RequestBody Map<String, String> payload){
 		Vehiculo v;
 		
-		String placa=payload.get("placa");
-		String color=payload.get("color");
+		String placa=payload.get("placa");		
 		int cilindraje=Integer.parseInt(payload.get("cilindraje"));
 		int tipo=Integer.parseInt(payload.get("tipo"));
 		if(tipo==1){		
-			v=new Moto(placa, color, cilindraje);
+			v=new Moto(placa, cilindraje);
 		}
 		else{
-			v=new Carro(placa, color, cilindraje);
+			v=new Carro(placa, cilindraje);
 		}		
 		if(iParqueo.ingresar(v)){
 			return "registro correcto";

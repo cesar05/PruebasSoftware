@@ -37,7 +37,7 @@ public class ParqueoLogic implements IParqueo{
 			else{	
 				Parqueo parqueo=new Parqueo(new DateTime(), null, 0, v);
 				repositorioVehiculo.save(VehiculoBuilder.aEntity(v));		
-				//respositorioParqueo.save(ParqueoBuilder.aEntity(parqueo));				
+				respositorioParqueo.save(ParqueoBuilder.aEntity(parqueo));				
 				return true;
 			}
 		}
