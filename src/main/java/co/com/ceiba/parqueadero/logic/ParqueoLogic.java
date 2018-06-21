@@ -59,8 +59,8 @@ public class ParqueoLogic implements IParqueo{
 	@Override
 	public boolean sinRestricciones(Vehiculo v,int dia) {
 		if(v!=null){
-			char letra=v.getPlaca().charAt(0);
-			if(letra=='A' || letra=='a'){
+			String letra=v.getPlaca().substring(0,1);
+			if(letra.equalsIgnoreCase("A")){
 				if(dia!=1 && dia!=7){
 					throw new ParqueaderoException(CON_RESTRICCIONES);					
 				}				
