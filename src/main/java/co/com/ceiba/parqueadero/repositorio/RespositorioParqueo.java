@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.interfacesDAO;
+package co.com.ceiba.parqueadero.repositorio;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
-import co.com.ceiba.parqueadero.interfacesDAO.RespositorioParqueo;
 import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
 import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
+import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @Component
 public class ParqueoFacade implements ParqueoFacadeInterface{

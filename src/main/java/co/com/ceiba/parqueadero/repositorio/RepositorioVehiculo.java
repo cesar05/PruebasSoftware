@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.interfacesDAO;
+package co.com.ceiba.parqueadero.repositorio;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

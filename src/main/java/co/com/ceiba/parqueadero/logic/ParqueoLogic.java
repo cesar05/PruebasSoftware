@@ -14,11 +14,11 @@ import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
 import co.com.ceiba.parqueadero.facade.VehiculoFacadeInterface;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
-import co.com.ceiba.parqueadero.interfacesDAO.RepositorioVehiculo;
-import co.com.ceiba.parqueadero.interfacesDAO.RespositorioParqueo;
 import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
 import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
 import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
+import co.com.ceiba.parqueadero.repositorio.RepositorioVehiculo;
+import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @Component
 public class ParqueoLogic implements IParqueo{
@@ -29,22 +29,23 @@ public class ParqueoLogic implements IParqueo{
 	@Autowired
 	ParqueoFacadeInterface parqueoFacadeInterface;
 	
+	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
+	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
+	
 	public ParqueoLogic() {
 		super();
 	}
 
 	@Override
 	public boolean ingresar(Vehiculo v) {
-		if(this.disponible(v)){
-			if(this.conRestricciones(v)){
-				throw new ParqueaderoException("Tiene restricciones: No es un dia habil para su vehiculo");
-			}
-			else{	
-				Parqueo parqueo=new Parqueo(new DateTime(), null, 0, v);
-				vehiculoFacadeInterface.grabar(v);		
-				parqueoFacadeInterface.grabar(parqueo);				
-				return true;
-			}
+		if(this.disponible(v)){	
+			DateTime fecha=DateTime.now();
+			//this.sinRestricciones(v,fecha.getDayOfWeek());
+			this.sinRestricciones(v,1);
+			Parqueo parqueo=new Parqueo(fecha, null, 0, v);
+			vehiculoFacadeInterface.grabar(v);		
+			parqueoFacadeInterface.grabar(parqueo);				
+			return true;			
 		}
 		else{
 			throw new ParqueaderoException("Cupo no disponible");
@@ -58,9 +59,19 @@ public class ParqueoLogic implements IParqueo{
 	}
 
 	@Override
-	public boolean conRestricciones(Vehiculo v) {
-		
-		return false;
+	public boolean sinRestricciones(Vehiculo v,int dia) {
+		if(v!=null){
+			char letra=v.getPlaca().charAt(0);
+			if(letra=='A' || letra=='a'){
+				if(dia!=1 && dia!=7){
+					throw new ParqueaderoException(CON_RESTRICCIONES);					
+				}				
+			}
+			return true;
+		}
+		else{
+			throw new ParqueaderoException(CON_RESTRICCIONES);
+		}
 	}
 
 	@Override
@@ -77,11 +88,14 @@ public class ParqueoLogic implements IParqueo{
 			}
 		}				
 		if(v instanceof Moto){
-			return celdasMotosOcupadas<10;
+			if(celdasMotosOcupadas>=10)
+				throw new ParqueaderoException(CUPO_NO_DISPONIBLE);
 		}
 		else{
-			return celdasCarrosOcupadas<20;
+			if(celdasCarrosOcupadas>=20)
+				throw new ParqueaderoException(CUPO_NO_DISPONIBLE);			
 		}		
+		return true;
 	}
 	
 }
