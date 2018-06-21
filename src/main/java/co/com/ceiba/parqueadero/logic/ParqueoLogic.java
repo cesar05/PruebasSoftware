@@ -1,5 +1,8 @@
 package co.com.ceiba.parqueadero.logic;
 
+import java.util.List;
+
+import org.apache.logging.log4j.CloseableThreadContext.Instance;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,6 +11,8 @@ import co.com.ceiba.parqueadero.dominio.Moto;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
+import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
+import co.com.ceiba.parqueadero.facade.VehiculoFacadeInterface;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
 import co.com.ceiba.parqueadero.interfacesDAO.RepositorioVehiculo;
 import co.com.ceiba.parqueadero.interfacesDAO.RespositorioParqueo;
@@ -19,10 +24,10 @@ import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 public class ParqueoLogic implements IParqueo{
 
 	@Autowired
-	RepositorioVehiculo repositorioVehiculo;
+	VehiculoFacadeInterface vehiculoFacadeInterface;
 	
 	@Autowired
-	RespositorioParqueo respositorioParqueo;
+	ParqueoFacadeInterface parqueoFacadeInterface;
 	
 	public ParqueoLogic() {
 		super();
@@ -36,8 +41,8 @@ public class ParqueoLogic implements IParqueo{
 			}
 			else{	
 				Parqueo parqueo=new Parqueo(new DateTime(), null, 0, v);
-				repositorioVehiculo.save(VehiculoBuilder.aEntity(v));		
-				respositorioParqueo.save(ParqueoBuilder.aEntity(parqueo));				
+				vehiculoFacadeInterface.grabar(v);		
+				parqueoFacadeInterface.grabar(parqueo);				
 				return true;
 			}
 		}
@@ -60,7 +65,23 @@ public class ParqueoLogic implements IParqueo{
 
 	@Override
 	public boolean disponible(Vehiculo v) {
-		return true;
+		List<Parqueo> parqueados=parqueoFacadeInterface.celdasOcupadas();
+		int celdasCarrosOcupadas=0;
+		int celdasMotosOcupadas=0;
+		for(Parqueo p:parqueados){		
+			if(p.getVehiculo() instanceof Moto){
+				celdasMotosOcupadas++;
+			}
+			else{
+				celdasCarrosOcupadas++;
+			}
+		}				
+		if(v instanceof Moto){
+			return celdasMotosOcupadas<10;
+		}
+		else{
+			return celdasCarrosOcupadas<20;
+		}		
 	}
 	
 }

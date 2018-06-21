@@ -12,7 +12,6 @@ import javax.persistence.NamedQuery;
 
 
 @Entity(name = "Parqueo")
-@NamedQuery(name = "Parqueo.findByIsbn", query = "SELECT parqueo FROM Parqueo parqueo WHERE parqueo.id = :id")
 public class ParqueoEntity {
 	
 	@Id
