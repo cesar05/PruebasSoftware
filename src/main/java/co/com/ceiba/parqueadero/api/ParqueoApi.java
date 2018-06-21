@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,10 +26,9 @@ public class ParqueoApi {
 	private IParqueo iParqueo;
 	
 	@PostMapping(value="/vehiculo")
-	public String ingresarMoto(@RequestBody Map<String, String> payload){
-		Vehiculo v;
-		
-		String placa=payload.get("placa");		
+	public String ingresarVehiculo(@RequestBody Map<String, String> payload){
+		Vehiculo v;		
+		String placa=payload.get("placa");
 		int cilindraje=Integer.parseInt(payload.get("cilindraje"));
 		int tipo=Integer.parseInt(payload.get("tipo"));
 		if(tipo==1){		
@@ -43,6 +43,22 @@ public class ParqueoApi {
 		else{
 			throw new ParqueaderoException("no fue posible registrar el ingreso");
 		}				
+	}
+	
+	@PutMapping("/vehiculo")
+	public String salirVehiculo(@RequestBody Map<String, String> payload){
+		Vehiculo v;		
+		String placa=payload.get("placa");
+		int cilindraje=Integer.parseInt(payload.get("cilindraje"));
+		int tipo=Integer.parseInt(payload.get("tipo"));
+		if(tipo==1){		
+			v=new Moto(placa, cilindraje);
+		}
+		else{
+			v=new Carro(placa, cilindraje);
+		}		
+		iParqueo.salir(v);
+		return "Salida registrada";
 	}
 	
 	@PostMapping("/prueba")

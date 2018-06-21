@@ -38,23 +38,21 @@ public class ParqueoLogic implements IParqueo{
 
 	@Override
 	public boolean ingresar(Vehiculo v) {
-		if(this.disponible(v)){	
-			DateTime fecha=DateTime.now();
-			//this.sinRestricciones(v,fecha.getDayOfWeek());
-			this.sinRestricciones(v,1);
-			Parqueo parqueo=new Parqueo(fecha, null, 0, v);
-			vehiculoFacadeInterface.grabar(v);		
-			parqueoFacadeInterface.grabar(parqueo);				
-			return true;			
-		}
-		else{
-			throw new ParqueaderoException("Cupo no disponible");
-		}
+		this.disponible(v);
+		DateTime fecha=DateTime.now();
+		this.sinRestricciones(v,fecha.getDayOfWeek());		
+		Parqueo parqueo=new Parqueo(fecha, null, 0, v);
+		vehiculoFacadeInterface.grabar(v);		
+		parqueoFacadeInterface.grabar(parqueo);				
+		return true;		
 	}
 
 	@Override
 	public boolean salir(Vehiculo v) {
-		
+		DateTime fechaSalida=DateTime.now();
+		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+		//p.setFechaSalida(fechaSalida);
+		parqueoFacadeInterface.salir(p);
 		return false;
 	}
 
