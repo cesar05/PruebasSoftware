@@ -2,7 +2,6 @@ package co.com.ceiba.parqueadero.logic;
 
 import java.util.List;
 
-import org.apache.logging.log4j.CloseableThreadContext.Instance;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,11 +13,7 @@ import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
 import co.com.ceiba.parqueadero.facade.VehiculoFacadeInterface;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
-import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
-import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
-import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
-import co.com.ceiba.parqueadero.repositorio.RepositorioVehiculo;
-import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
+
 
 @Component
 public class ParqueoLogic implements IParqueo{
