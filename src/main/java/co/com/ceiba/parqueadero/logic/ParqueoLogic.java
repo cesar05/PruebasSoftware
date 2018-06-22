@@ -28,6 +28,8 @@ public class ParqueoLogic implements IParqueo{
 	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
 	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
 	
+	private DateTime fechaActual;
+	
 	public ParqueoLogic() {
 		super();
 	}
@@ -36,13 +38,25 @@ public class ParqueoLogic implements IParqueo{
 		super();
 		this.parqueoFacadeInterface=parqueoFacadeInterface;
 	}
+	
+	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,VehiculoFacadeInterface vehiculoFacadeInterface,DateTime fechaActual){
+		super();
+		this.parqueoFacadeInterface=parqueoFacadeInterface;
+		this.vehiculoFacadeInterface=vehiculoFacadeInterface;
+		this.fechaActual=fechaActual;
+	}
 
+	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,DateTime fechaActual){
+		super();
+		this.parqueoFacadeInterface=parqueoFacadeInterface;
+		this.fechaActual=fechaActual;
+	}
+	
 	@Override
 	public boolean ingresar(Vehiculo v) {		
 		this.disponible(v);
-		DateTime fecha=DateTime.now();
-		this.sinRestricciones(v,fecha.getDayOfWeek());		
-		Parqueo parqueo=new Parqueo(fecha, null, 0, v);
+		this.sinRestricciones(v,fechaActual.getDayOfWeek());		
+		Parqueo parqueo=new Parqueo(fechaActual, null, 0, v);
 		vehiculoFacadeInterface.grabar(v);		
 		parqueoFacadeInterface.grabar(parqueo);				
 		return true;		
@@ -99,31 +113,35 @@ public class ParqueoLogic implements IParqueo{
 	
 	public double calcularValorPagar(DateTime fechaIngreso,DateTime fechaSalida,Vehiculo v){
 		double valorPagar=0;
-		int horas=0;
 		double valorHoraMoto=500;
 		double valorHoraCarro=1000;
 		double valorDiaMoto=4000;
 		double valorDiaCarro=8000;
+		double valorAdicionalMotos=2000;
 		Duration tiempoDeParqueo=new Duration(fechaIngreso,fechaSalida);
 		if(tiempoDeParqueo.getStandardMinutes()<540){
-			horas=(int)(Math.ceil((float)tiempoDeParqueo.getStandardMinutes()/60));
-			if(v instanceof Moto){								
-				valorPagar=horas*valorHoraMoto;
-			}
-			else{
-				valorPagar=horas*valorHoraCarro;
-			}
+			int horas=(int)(Math.ceil((float)tiempoDeParqueo.getStandardMinutes()/60));
+			valorPagar=v instanceof Moto?horas*valorHoraMoto:horas*valorHoraCarro;
 		}
 		else{	
 			Long dias=tiempoDeParqueo.getStandardDays();
-			horas=(int)(Math.ceil((float)(tiempoDeParqueo.getStandardMinutes()-dias*1440)/60));
-			if(v instanceof Moto){								
-				valorPagar=dias*valorDiaMoto+horas*valorHoraMoto;
+			if(dias==0){
+				valorPagar=v instanceof Moto?valorDiaMoto:valorDiaCarro;
 			}
 			else{
-				valorPagar=dias*valorDiaCarro+horas*valorHoraCarro;
-			}
+				Long minutosUltimoDia=tiempoDeParqueo.getStandardMinutes()-dias*1440;
+				int horasUlitmoDia=(int)(Math.ceil((float)(tiempoDeParqueo.getStandardMinutes()-dias*1440)/60));
+				if(minutosUltimoDia>=540){
+					dias+=1;
+					horasUlitmoDia=0;
+				}	
+				valorPagar=v instanceof Moto?dias*valorDiaMoto+horasUlitmoDia*valorHoraMoto
+											:dias*valorDiaCarro+horasUlitmoDia*valorHoraCarro;
+			}			
 		}
+		
+		valorPagar +=v instanceof Moto && v.getCilindraje()>500?valorAdicionalMotos:0;
+		
 		return valorPagar;
 	}
 }

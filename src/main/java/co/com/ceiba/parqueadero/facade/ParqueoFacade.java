@@ -2,13 +2,10 @@ package co.com.ceiba.parqueadero.facade;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
-import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
 import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
@@ -31,7 +28,7 @@ public class ParqueoFacade implements ParqueoFacadeInterface{
 
 	@Override
 	public void grabar(Parqueo p) {
-		repositorioParqueo.save(ParqueoBuilder.aEntity(p));		
+		repositorioParqueo.save(ParqueoBuilder.aEntity(p));	
 	}
 
 	@Override

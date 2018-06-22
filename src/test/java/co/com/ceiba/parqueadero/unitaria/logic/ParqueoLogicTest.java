@@ -109,11 +109,33 @@ public class ParqueoLogicTest {
 				numPlaca++;
 			}			
 			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
-			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
+			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();			
 		//Act			
 			boolean flag=parqueoLogic.disponible(v);			
 		//Assert
 			assertTrue(flag);			
+	}
+	
+	@Test
+	public void disponibleParaMotos2Test(){
+		//Arrange
+			List<Parqueo> listaParqueo=new ArrayList<>(); 
+			int numPlaca=100;
+			for(int i=0;i<10;i++){
+				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Moto("BBC-"+numPlaca, 500)));
+				numPlaca++;
+			}			
+			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
+			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();			
+		//Act	
+			try{
+				parqueoLogic.disponible(v);
+				fail();
+			}
+			catch(ParqueaderoException e){
+		//Assert
+				assertEquals(CUPO_NO_DISPONIBLE, e.getMessage());
+			}
 	}
 	
 	@Test
@@ -194,6 +216,22 @@ public class ParqueoLogicTest {
 	}
 	
 	/**
+	 * Valor a pagar de una moto(CILINDRAJE=500) en 9 horas: debe ser 4000
+	 */
+	@Test
+	public void calcularValorPagarMotoNueveHorasTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusHours(9);
+			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(500).buildMoto();
+			double valorEsperado=4000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
 	 * Valor a pagar de un carro en 3 horas: debe ser 3000
 	 */
 	@Test
@@ -204,13 +242,29 @@ public class ParqueoLogicTest {
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
 			double valorEsperado=3000;
 		//Act			
-			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
 			assertTrue(valorPagar==valorEsperado);
 	}
 	
 	/**
-	 * Valor a pagar de una moto(CILINDRAJE=200) en 1 dia y 5 horas: debe ser 6500
+	 * Valor a pagar de un carro en 9 horas: debe ser 8000
+	 */
+	@Test
+	public void calcularValorPagarCarroNueveHoarasTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusHours(9);
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			double valorEsperado=8000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=250) en 1 dia y 5 horas: debe ser 6500
 	 */
 	@Test
 	public void calcularValorPagarMoto200Test(){
@@ -222,6 +276,39 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=501) en 1 dia y 8 horas y 49 minutos: debe ser 10500
+	 */
+	@Test
+	public void calcularValorPagarMoto501Test(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(8).plusMinutes(49);
+			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(501).buildMoto();
+			double valorEsperado=10500;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert			
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=300) en 1 dia y 9 horas 1 y  minutos: debe ser 8000
+	 */
+	@Test
+	public void calcularValorPagarMoto300Test(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(9).plusMinutes(1);
+			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(300).buildMoto();
+			double valorEsperado=8000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
+			System.out.println("valor a pagar="+valorPagar);
+		//Assert			
 			assertTrue(valorPagar==valorEsperado);
 	}
 	
