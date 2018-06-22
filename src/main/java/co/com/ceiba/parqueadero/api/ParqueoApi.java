@@ -62,7 +62,7 @@ public class ParqueoApi {
 		else{
 			v=new Carro(placa, cilindraje);
 		}		
-		iParqueo.salir(v);
+		iParqueo.registrarSalida(v);
 		return "Salida registrada";
 	}
 	

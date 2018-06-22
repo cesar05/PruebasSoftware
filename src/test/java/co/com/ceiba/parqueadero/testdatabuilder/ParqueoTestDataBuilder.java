@@ -9,11 +9,11 @@ import co.com.ceiba.parqueadero.dominio.Vehiculo;
 
 public class ParqueoTestDataBuilder {
 
-	private static final DateTime FECHAINGRESO=new DateTime("20181206 14:00:00");
-	private static final DateTime FECHASALIDA=new DateTime("20181206 19:00:00");
+	private static final DateTime FECHAINGRESO=new DateTime(2018,12,6,14,0,0);
+	private static final DateTime FECHASALIDA=new DateTime(2018,12,6,19,0,0);
 	private static final double VALORPAGAR=0;
-	private static final Vehiculo VEHICULOMOTO=new Moto("ABC-123",500);
-	private static final Vehiculo VEHICULOCARRO=new Carro("CCC-123",1600);
+	private static final Vehiculo MOTO=new Moto("ABC-123",500);
+	private static final Vehiculo CARRO=new Carro("CCC-123",1600);
 	
 	private DateTime fechaIngreso;
 	private DateTime fechaSalida;
@@ -23,8 +23,7 @@ public class ParqueoTestDataBuilder {
 	public ParqueoTestDataBuilder(){
 		this.fechaIngreso=FECHAINGRESO;
 		this.fechaSalida=FECHASALIDA;
-		this.valorPagar=VALORPAGAR;
-		this.vehiculo=VEHICULOCARRO;
+		this.valorPagar=VALORPAGAR;		
 	}
 	
 	public ParqueoTestDataBuilder conFechaIngreso(DateTime fechaIngreso){
@@ -45,7 +44,12 @@ public class ParqueoTestDataBuilder {
 		return this;
 	}
 	
-	public Parqueo build(){
+	public Parqueo buildConMoto(){
+		this.vehiculo=MOTO;
+		return new Parqueo(this.fechaIngreso, this.fechaSalida, this.valorPagar, this.vehiculo);
+	}
+	public Parqueo buildConCarro(){
+		this.vehiculo=CARRO;
 		return new Parqueo(this.fechaIngreso, this.fechaSalida, this.valorPagar, this.vehiculo);
 	}
 }

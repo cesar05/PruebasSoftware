@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.unitaria.logic;
+package co.com.ceiba.parqueadero.unitaria;
 
 import static org.junit.Assert.*;
 

@@ -63,12 +63,11 @@ public class ParqueoLogic implements IParqueo{
 	}
 
 	@Override
-	public boolean salir(Vehiculo v) {
-		DateTime fechaSalida=DateTime.now().plus(5l);
+	public double registrarSalida(Vehiculo v) {		
 		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
-		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), fechaSalida, v));
+		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), this.fechaActual, v));		
 		parqueoFacadeInterface.salir(p);
-		return false;
+		return p.getValorPagar();
 	}
 
 	@Override

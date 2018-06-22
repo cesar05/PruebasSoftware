@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.unitaria.integracion;
+package co.com.ceiba.parqueadero.integracion;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,6 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito.Then;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
 import co.com.ceiba.parqueadero.facade.VehiculoFacadeInterface;
 import co.com.ceiba.parqueadero.logic.ParqueoLogic;
+import co.com.ceiba.parqueadero.testdatabuilder.ParqueoTestDataBuilder;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 @RunWith(SpringRunner.class)
@@ -62,6 +62,7 @@ public class ParqueoLogicTest {
 		//Act
 			try{
 				parqueologic.ingresar(moto);
+				fail();
 			}
 			catch(ParqueaderoException e){
 		//Assert
@@ -87,7 +88,7 @@ public class ParqueoLogicTest {
 	}
 	
 	/**
-	 * Se prueba cuando no hay cupo.
+	 * Se prueba cuando no hay cupo para carro.
 	 */
 	@Test
 	public void ingresarCarroTest(){
@@ -110,6 +111,25 @@ public class ParqueoLogicTest {
 		//Assert
 				assertEquals(CUPO_NO_DISPONIBLE,e.getMessage());
 			}
+	}
+	
+	/**
+	 * Se valida que si cobre lo correcto al registrar la salida
+	 */
+	@Test
+	public void registrarSalidaCarroTest(){
+		//Arrange
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			DateTime fechaIngreso=new DateTime(2018,6,20,0,0,0);
+			DateTime fechaSalida=new DateTime(2018,6,22,8,40,0);
+			Parqueo p=new ParqueoTestDataBuilder().conFechaIngreso(fechaIngreso).buildConCarro();		
+			Mockito.when(parqueoFacadeInterface.findByPlaca(v.getPlaca())).thenReturn(p);
+			ParqueoLogic parqueoLogic=new ParqueoLogic(parqueoFacadeInterface,fechaSalida);
+			double valorEsperado=25000;
+		//Act
+			double valorPagar=parqueoLogic.registrarSalida(v);
+		//Assert
+			assertTrue(valorEsperado==valorPagar);
 	}
 
 }
