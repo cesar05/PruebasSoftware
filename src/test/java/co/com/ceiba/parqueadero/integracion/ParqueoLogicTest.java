@@ -131,5 +131,24 @@ public class ParqueoLogicTest {
 		//Assert
 			assertTrue(valorEsperado==valorPagar);
 	}
+	
+	/**
+	 * Se valida que si cobre lo correcto al registrar la salida de un carro en 2 minutos. debe ser 1000
+	 */
+	@Test
+	public void registrarSalidaCarro2Test(){
+		//Arrange
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			DateTime fechaIngreso=new DateTime(2018,6,22,16,20,0);
+			DateTime fechaSalida=new DateTime(2018,6,22,16,22,0);
+			Parqueo p=new ParqueoTestDataBuilder().conFechaIngreso(fechaIngreso).buildConCarro();		
+			Mockito.when(parqueoFacadeInterface.findByPlaca(v.getPlaca())).thenReturn(p);
+			ParqueoLogic parqueoLogic=new ParqueoLogic(parqueoFacadeInterface,fechaSalida);
+			double valorEsperado=1000;
+		//Act
+			double valorPagar=parqueoLogic.registrarSalida(v);
+		//Assert
+			assertTrue(valorEsperado==valorPagar);
+	}
 
 }

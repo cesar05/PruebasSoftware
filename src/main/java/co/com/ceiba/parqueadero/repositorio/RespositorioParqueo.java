@@ -23,7 +23,7 @@ public interface RespositorioParqueo extends CrudRepository<ParqueoEntity, Long>
 	@Transactional
 	int salir(Date fechaSalida,double valorPagar,String placa);
 		
-	@Query("SELECT p FROM Parqueo p WHERE p.vehiculo.id=:placa")
+	@Query("SELECT p FROM Parqueo p WHERE p.vehiculo.id=:placa AND p.fechaSalida IS NULL")
 	ParqueoEntity findByPlaca(@Param("placa") String placa);
 	
 }

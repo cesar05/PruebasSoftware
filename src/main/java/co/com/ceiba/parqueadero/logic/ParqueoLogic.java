@@ -27,16 +27,20 @@ public class ParqueoLogic implements IParqueo{
 	
 	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
 	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
+	public static final String VEHICULO_PARQUEADO="El vehiculo ya se encuentra parqueado en Ceiba Software House";
+	public static final String VEHICULO_NO_ESTA_PARQUEADO="El vehiculo no esta parqueadeo en Ceiba Software House";
 	
 	private DateTime fechaActual;
 	
 	public ParqueoLogic() {
 		super();
+		this.fechaActual=new DateTime();
 	}
 	
 	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface){
 		super();
 		this.parqueoFacadeInterface=parqueoFacadeInterface;
+		this.fechaActual=new DateTime();
 	}
 	
 	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,VehiculoFacadeInterface vehiculoFacadeInterface,DateTime fechaActual){
@@ -57,6 +61,11 @@ public class ParqueoLogic implements IParqueo{
 		this.disponible(v);
 		this.sinRestricciones(v,fechaActual.getDayOfWeek());		
 		Parqueo parqueo=new Parqueo(fechaActual, null, 0, v);
+		//Valido que el vehiculo no este en el parqueado
+		Parqueo parqueado=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+		if(parqueado!=null){
+			throw new ParqueaderoException(VEHICULO_PARQUEADO);
+		}
 		vehiculoFacadeInterface.grabar(v);		
 		parqueoFacadeInterface.grabar(parqueo);				
 		return true;		
@@ -65,6 +74,9 @@ public class ParqueoLogic implements IParqueo{
 	@Override
 	public double registrarSalida(Vehiculo v) {		
 		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+		if(p==null){
+			throw new ParqueaderoException(VEHICULO_NO_ESTA_PARQUEADO);
+		}		
 		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), this.fechaActual, v));		
 		parqueoFacadeInterface.salir(p);
 		return p.getValorPagar();
@@ -142,5 +154,10 @@ public class ParqueoLogic implements IParqueo{
 		valorPagar +=v instanceof Moto && v.getCilindraje()>500?valorAdicionalMotos:0;
 		
 		return valorPagar;
+	}
+	
+	@Override
+	public void fechaActul(DateTime fechaActual){
+		this.fechaActual=fechaActual;
 	}
 }

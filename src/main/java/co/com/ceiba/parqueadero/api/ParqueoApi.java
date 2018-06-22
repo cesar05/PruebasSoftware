@@ -2,6 +2,7 @@ package co.com.ceiba.parqueadero.api;
 
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +38,7 @@ public class ParqueoApi {
 		else{
 			v=new Carro(placa, cilindraje);
 		}		
+		
 		if(iParqueo.ingresar(v)){
 			return "registro correcto";
 		}
@@ -51,7 +53,7 @@ public class ParqueoApi {
 	 * @return
 	 */
 	@PutMapping("/vehiculo")
-	public String registrarSalidaVehiculo(@RequestBody Map<String, String> payload){
+	public double registrarSalidaVehiculo(@RequestBody Map<String, String> payload){
 		Vehiculo v;		
 		String placa=payload.get("placa");
 		int cilindraje=Integer.parseInt(payload.get("cilindraje"));
@@ -62,8 +64,8 @@ public class ParqueoApi {
 		else{
 			v=new Carro(placa, cilindraje);
 		}		
-		iParqueo.registrarSalida(v);
-		return "Salida registrada";
+		iParqueo.fechaActul(new DateTime().plusMinutes(2));
+		return iParqueo.registrarSalida(v);
 	}
 	
 	@PostMapping("/prueba")

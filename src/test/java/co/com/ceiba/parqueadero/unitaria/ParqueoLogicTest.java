@@ -200,15 +200,15 @@ public class ParqueoLogicTest {
 	}
 	
 	/**
-	 * Valor a pagar de una moto(CILINDRAJE=200) en 2 horas: debe ser 1000
+	 * Valor a pagar de una moto(CILINDRAJE=650) en 10 horas: debe ser 6.000
 	 */
 	@Test
 	public void calcularValorPagarMotoTest(){
 		//Arrange
 			DateTime fechaIngreso=new DateTime();
-			DateTime fechaSalida=new DateTime().plusHours(2);
-			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();
-			double valorEsperado=1000;
+			DateTime fechaSalida=new DateTime().plusHours(10);
+			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(650).buildMoto();
+			double valorEsperado=6000;
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert
@@ -313,15 +313,31 @@ public class ParqueoLogicTest {
 	}
 	
 	/**
-	 * Valor a pagar de una carro en 1 dia y 8 horas: debe ser 16000
+	 * Valor a pagar de una carro en 1 dia y 3 horas: debe ser 11000
 	 */
 	@Test
 	public void calcularValorPagarCarroUnDiaTest(){
 		//Arrange
 			DateTime fechaIngreso=new DateTime();
-			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(8);
+			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(3);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
-			double valorEsperado=16000;
+			double valorEsperado=11000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una carro en 2 minutos debe ser 1000
+	 */
+	@Test
+	public void calcularValorPagarCarroDosMinutosTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusMinutes(2);
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			double valorEsperado=1000;
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
