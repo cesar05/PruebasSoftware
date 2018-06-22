@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.logic;
+package co.com.ceiba.parqueadero.unitaria.logic;
 
 import static org.junit.Assert.*;
 
@@ -22,6 +22,7 @@ import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
+import co.com.ceiba.parqueadero.logic.ParqueoLogic;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 @RunWith(SpringRunner.class)
@@ -45,7 +46,7 @@ public class ParqueoLogicTest {
 	
 	@Before
 	public void inicializacion(){
-		parqueoLogic=new ParqueoLogic();
+		parqueoLogic=new ParqueoLogic(parqueoFacadeInterface);
 	}
 	
 	@Test
@@ -103,11 +104,11 @@ public class ParqueoLogicTest {
 		//Arrange
 			List<Parqueo> listaParqueo=new ArrayList<>(); 
 			int numPlaca=100;
-			for(int i=0;i<15;i++){
+			for(int i=0;i<9;i++){
 				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Moto("BBC-"+numPlaca, 500)));
 				numPlaca++;
 			}			
-			parqueoLogic.setVehiculosParqueados(listaParqueo);
+			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
 		//Act			
 			boolean flag=parqueoLogic.disponible(v);			
@@ -124,7 +125,7 @@ public class ParqueoLogicTest {
 				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Carro("BBC-"+numPlaca, 500)));
 				numPlaca++;
 			}			
-			parqueoLogic.setVehiculosParqueados(listaParqueo);
+			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
 		//Act			
 			boolean flag=parqueoLogic.disponible(v);			
@@ -141,7 +142,7 @@ public class ParqueoLogicTest {
 				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Carro("BBC-"+numPlaca, 500)));
 				numPlaca++;
 			}			
-			parqueoLogic.setVehiculosParqueados(listaParqueo);
+			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
 		//Act
 			try{
@@ -163,7 +164,7 @@ public class ParqueoLogicTest {
 				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Moto("BBC-"+numPlaca, 500)));
 				numPlaca++;
 			}			
-			parqueoLogic.setVehiculosParqueados(listaParqueo);
+			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();			
 		//Act
 			try{
@@ -175,4 +176,69 @@ public class ParqueoLogicTest {
 				assertEquals(CUPO_NO_DISPONIBLE,e.getMessage());			
 			}
 	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=200) en 2 horas: debe ser 1000
+	 */
+	@Test
+	public void calcularValorPagarMotoTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusHours(2);
+			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();
+			double valorEsperado=1000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de un carro en 3 horas: debe ser 3000
+	 */
+	@Test
+	public void calcularValorPagarCarroTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusHours(3);
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			double valorEsperado=3000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=200) en 1 dia y 5 horas: debe ser 6500
+	 */
+	@Test
+	public void calcularValorPagarMoto200Test(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(5);
+			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();
+			double valorEsperado=6500;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una carro en 1 dia y 8 horas: debe ser 16000
+	 */
+	@Test
+	public void calcularValorPagarCarroUnDiaTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime().plusDays(1).plusHours(8);
+			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();
+			double valorEsperado=16000;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
+		//Assert
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
 }

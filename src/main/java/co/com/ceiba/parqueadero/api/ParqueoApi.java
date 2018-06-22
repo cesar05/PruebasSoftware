@@ -45,8 +45,13 @@ public class ParqueoApi {
 		}				
 	}
 	
+	/**
+	 * Servicio para registrar la salida del vehiculo
+	 * @param payload
+	 * @return
+	 */
 	@PutMapping("/vehiculo")
-	public String salirVehiculo(@RequestBody Map<String, String> payload){
+	public String registrarSalidaVehiculo(@RequestBody Map<String, String> payload){
 		Vehiculo v;		
 		String placa=payload.get("placa");
 		int cilindraje=Integer.parseInt(payload.get("cilindraje"));

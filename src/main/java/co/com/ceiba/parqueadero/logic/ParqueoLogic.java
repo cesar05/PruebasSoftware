@@ -3,6 +3,7 @@ package co.com.ceiba.parqueadero.logic;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,15 +28,17 @@ public class ParqueoLogic implements IParqueo{
 	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
 	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
 	
-	List<Parqueo> vehiculosParqueados;
-	
 	public ParqueoLogic() {
 		super();
 	}
+	
+	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface){
+		super();
+		this.parqueoFacadeInterface=parqueoFacadeInterface;
+	}
 
 	@Override
-	public boolean ingresar(Vehiculo v) {
-		this.vehiculosParqueados=parqueoFacadeInterface.celdasOcupadas();
+	public boolean ingresar(Vehiculo v) {		
 		this.disponible(v);
 		DateTime fecha=DateTime.now();
 		this.sinRestricciones(v,fecha.getDayOfWeek());		
@@ -47,8 +50,9 @@ public class ParqueoLogic implements IParqueo{
 
 	@Override
 	public boolean salir(Vehiculo v) {
-		DateTime fechaSalida=DateTime.now();
-		Parqueo p=new Parqueo(null, fechaSalida, 200, v);
+		DateTime fechaSalida=DateTime.now().plus(5l);
+		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), fechaSalida, v));
 		parqueoFacadeInterface.salir(p);
 		return false;
 	}
@@ -71,6 +75,7 @@ public class ParqueoLogic implements IParqueo{
 
 	@Override
 	public boolean disponible(Vehiculo v) {	
+		List<Parqueo> vehiculosParqueados=parqueoFacadeInterface.celdasOcupadas();
 		int celdasCarrosOcupadas=0;
 		int celdasMotosOcupadas=0;
 		for(Parqueo p:vehiculosParqueados){		
@@ -91,13 +96,34 @@ public class ParqueoLogic implements IParqueo{
 		}		
 		return true;
 	}
-
-	public List<Parqueo> getVehiculosParqueados() {
-		return vehiculosParqueados;
+	
+	public double calcularValorPagar(DateTime fechaIngreso,DateTime fechaSalida,Vehiculo v){
+		double valorPagar=0;
+		int horas=0;
+		double valorHoraMoto=500;
+		double valorHoraCarro=1000;
+		double valorDiaMoto=4000;
+		double valorDiaCarro=8000;
+		Duration tiempoDeParqueo=new Duration(fechaIngreso,fechaSalida);
+		if(tiempoDeParqueo.getStandardMinutes()<540){
+			horas=(int)(Math.ceil((float)tiempoDeParqueo.getStandardMinutes()/60));
+			if(v instanceof Moto){								
+				valorPagar=horas*valorHoraMoto;
+			}
+			else{
+				valorPagar=horas*valorHoraCarro;
+			}
+		}
+		else{	
+			Long dias=tiempoDeParqueo.getStandardDays();
+			horas=(int)(Math.ceil((float)(tiempoDeParqueo.getStandardMinutes()-dias*1440)/60));
+			if(v instanceof Moto){								
+				valorPagar=dias*valorDiaMoto+horas*valorHoraMoto;
+			}
+			else{
+				valorPagar=dias*valorDiaCarro+horas*valorHoraCarro;
+			}
+		}
+		return valorPagar;
 	}
-
-	public void setVehiculosParqueados(List<Parqueo> vehiculosParqueados) {
-		this.vehiculosParqueados = vehiculosParqueados;
-	}
-			
 }
