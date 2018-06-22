@@ -27,12 +27,15 @@ public class ParqueoLogic implements IParqueo{
 	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
 	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
 	
+	List<Parqueo> vehiculosParqueados;
+	
 	public ParqueoLogic() {
 		super();
 	}
 
 	@Override
 	public boolean ingresar(Vehiculo v) {
+		this.vehiculosParqueados=parqueoFacadeInterface.celdasOcupadas();
 		this.disponible(v);
 		DateTime fecha=DateTime.now();
 		this.sinRestricciones(v,fecha.getDayOfWeek());		
@@ -45,8 +48,7 @@ public class ParqueoLogic implements IParqueo{
 	@Override
 	public boolean salir(Vehiculo v) {
 		DateTime fechaSalida=DateTime.now();
-		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
-		//p.setFechaSalida(fechaSalida);
+		Parqueo p=new Parqueo(null, fechaSalida, 200, v);
 		parqueoFacadeInterface.salir(p);
 		return false;
 	}
@@ -68,11 +70,10 @@ public class ParqueoLogic implements IParqueo{
 	}
 
 	@Override
-	public boolean disponible(Vehiculo v) {
-		List<Parqueo> parqueados=parqueoFacadeInterface.celdasOcupadas();
+	public boolean disponible(Vehiculo v) {	
 		int celdasCarrosOcupadas=0;
 		int celdasMotosOcupadas=0;
-		for(Parqueo p:parqueados){		
+		for(Parqueo p:vehiculosParqueados){		
 			if(p.getVehiculo() instanceof Moto){
 				celdasMotosOcupadas++;
 			}
@@ -84,11 +85,19 @@ public class ParqueoLogic implements IParqueo{
 			if(celdasMotosOcupadas>=10)
 				throw new ParqueaderoException(CUPO_NO_DISPONIBLE);
 		}
-		else{
+		else{			
 			if(celdasCarrosOcupadas>=20)
-				throw new ParqueaderoException(CUPO_NO_DISPONIBLE);			
+				throw new ParqueaderoException(CUPO_NO_DISPONIBLE);
 		}		
 		return true;
 	}
-	
+
+	public List<Parqueo> getVehiculosParqueados() {
+		return vehiculosParqueados;
+	}
+
+	public void setVehiculosParqueados(List<Parqueo> vehiculosParqueados) {
+		this.vehiculosParqueados = vehiculosParqueados;
+	}
+			
 }

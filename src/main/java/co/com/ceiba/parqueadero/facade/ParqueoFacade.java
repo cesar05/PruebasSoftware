@@ -36,16 +36,7 @@ public class ParqueoFacade implements ParqueoFacadeInterface{
 
 	@Override
 	public void salir(Parqueo p) {
-		System.out.println("Placa="+p.getVehiculo().getPlaca());
-		repositorioParqueo.salir(DateTime.now().toDate(),p.getVehiculo().getPlaca());
-		//repositorioParqueo.salir(ParqueoBuilder.aEntity(p),DateTime.now().toDate());
-		//Long id=new Long(1);
-		//Optional<ParqueoEntity> parqueoEntity=repositorioParqueo.findById(id);
-		/*
-		repositorioParqueo.salir((ParqueoEntity)parqueoEntity.get(), DateTime.now().toDate());
-		System.out.println("Placa="+p.getVehiculo().getPlaca());
-		//repositorioParqueo.salir(DateTime.now().toDate(),p.getVehiculo().getPlaca());
-		*/
+		repositorioParqueo.salir(DateTime.now().toDate(),p.getValorPagar(),p.getVehiculo().getPlaca());
 	}
 
 	@Override
