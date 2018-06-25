@@ -40,7 +40,5 @@ public class ParqueoFacade implements ParqueoFacadeInterface{
 	public Parqueo findByPlaca(String placa) {
 		return ParqueoBuilder.aDominio(repositorioParqueo.findByPlaca(placa));
 	}
-	
-	
 
 }

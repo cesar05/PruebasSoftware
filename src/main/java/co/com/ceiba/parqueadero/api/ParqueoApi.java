@@ -1,9 +1,11 @@
 package co.com.ceiba.parqueadero.api;
 
+import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.parqueadero.dominio.Carro;
 import co.com.ceiba.parqueadero.dominio.Moto;
+import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
@@ -68,8 +71,8 @@ public class ParqueoApi {
 		return iParqueo.registrarSalida(v);
 	}
 	
-	@PostMapping("/prueba")
-	public Map<String,Object> prueba(@RequestBody Map<String,Object> payload){
-		return (Map<String,Object>)payload.get("hola");
+	@GetMapping("/vehiculo")
+	public List<Parqueo> prueba(){
+		return iParqueo.vehiculosParqueados();
 	}
 }

@@ -1,5 +1,6 @@
 package co.com.ceiba.parqueadero.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -159,5 +160,11 @@ public class ParqueoLogic implements IParqueo{
 	@Override
 	public void fechaActul(DateTime fechaActual){
 		this.fechaActual=fechaActual;
+	}
+
+	@Override
+	public List<Parqueo> vehiculosParqueados() {
+		List<Parqueo> vehiculosParqueados=parqueoFacadeInterface.celdasOcupadas();
+		return vehiculosParqueados;
 	}
 }
