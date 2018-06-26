@@ -1,25 +1,15 @@
 package co.com.ceiba.parqueadero.dominio;
 
-public class Restriccion {
-	private int id;
+public class Restriccion {	
 	private int dia;
-	private char letra;
-	private char estado;
+	private char letra;	
 	
-	public Restriccion(int id, int dia, char letra, char estado) {
-		super();
-		this.id = id;
+	public Restriccion(int dia, char letra) {
+		super();		
 		this.dia = dia;
-		this.letra = letra;
-		this.estado = estado;
+		this.letra = letra;		
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getDia() {
 		return dia;
 	}
@@ -31,13 +21,6 @@ public class Restriccion {
 	}
 	public void setLetra(char letra) {
 		this.letra = letra;
-	}
-	public char getEstado() {
-		return estado;
-	}
-	public void setEstado(char estado) {
-		this.estado = estado;
-	}
-	
+	}		
 	
 }

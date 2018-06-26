@@ -1,59 +1,54 @@
 package co.com.ceiba.parqueadero.dominio;
 
-public class Precio {
-	private int id;
-	private double valorHora;
-	private double valorDia;
-	private Vehiculo vehiculo;
-	private boolean vigente;
+public final class Precio {
 	
-	public Precio(int id, double valorHora, double valorDia, Vehiculo vehiculo, boolean vigente) {
+	private double valorHoraMoto;
+	private double valorHoraCarro;
+	private double valorDiaMoto;
+	private double valorDiaCarro;
+	private double valorAdicionalMotos;
+	
+	public Precio(double valorHoraMoto, double valorHoraCarro, double valorDiaMoto, double valorDiaCarro,
+			double valorAdicionalMotos) {
 		super();
-		this.id = id;
-		this.valorHora = valorHora;
-		this.valorDia = valorDia;
-		this.vehiculo = vehiculo;
-		this.vigente = vigente;
+		this.valorHoraMoto = valorHoraMoto;
+		this.valorHoraCarro = valorHoraCarro;
+		this.valorDiaMoto = valorDiaMoto;
+		this.valorDiaCarro = valorDiaCarro;
+		this.valorAdicionalMotos = valorAdicionalMotos;
 	}
-
-	public int getId() {
-		return id;
+	
+	public double getValorHoraMoto() {
+		return valorHoraMoto;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setValorHoraMoto(double valorHoraMoto) {
+		this.valorHoraMoto = valorHoraMoto;
 	}
-
-	public double getValorHora() {
-		return valorHora;
+	public double getValorHoraCarro() {
+		return valorHoraCarro;
 	}
-
-	public void setValorHora(double valorHora) {
-		this.valorHora = valorHora;
+	public void setValorHoraCarro(double valorHoraCarro) {
+		this.valorHoraCarro = valorHoraCarro;
 	}
-
-	public double getValorDia() {
-		return valorDia;
+	public double getValorDiaMoto() {
+		return valorDiaMoto;
 	}
-
-	public void setValorDia(double valorDia) {
-		this.valorDia = valorDia;
+	public void setValorDiaMoto(double valorDiaMoto) {
+		this.valorDiaMoto = valorDiaMoto;
 	}
-
-	public Vehiculo getVehiculo() {
-		return vehiculo;
+	public double getValorDiaCarro() {
+		return valorDiaCarro;
 	}
-
-	public void setVehiculo(Vehiculo vehiculo) {
-		this.vehiculo = vehiculo;
+	public void setValorDiaCarro(double valorDiaCarro) {
+		this.valorDiaCarro = valorDiaCarro;
 	}
-
-	public boolean isVigente() {
-		return vigente;
+	public double getValorAdicionalMotos() {
+		return valorAdicionalMotos;
 	}
-
-	public void setVigente(boolean vigente) {
-		this.vigente = vigente;
+	public void setValorAdicionalMotos(double valorAdicionalMotos) {
+		this.valorAdicionalMotos = valorAdicionalMotos;
 	}
+	
+	
 	
 }

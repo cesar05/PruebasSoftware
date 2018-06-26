@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.parqueadero.dominio.Carro;
 import co.com.ceiba.parqueadero.dominio.Moto;
-import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Respuesta;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
 
 @RestController
-//@CrossOrigin(origins="http://localhost:4200")
 @CrossOrigin(origins="*")
 @RequestMapping(value = "/parqueo", headers = {
 	"accept=application/json",

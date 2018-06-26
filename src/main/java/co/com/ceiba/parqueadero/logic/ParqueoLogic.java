@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import co.com.ceiba.parqueadero.dominio.Moto;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
+import co.com.ceiba.parqueadero.dominio.Precio;
+import co.com.ceiba.parqueadero.dominio.Restriccion;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
@@ -35,6 +37,9 @@ public class ParqueoLogic implements IParqueo{
 	
 	private DateTime fechaActual;
 	
+	private static final Precio precio=new Precio(500, 1000, 4000, 8000, 2000);
+	//private static final List<Restriccion> restricciones=new ArrayList<>();
+			
 	public ParqueoLogic() {
 		super();
 		this.fechaActual=new DateTime();
@@ -134,21 +139,16 @@ public class ParqueoLogic implements IParqueo{
 	}
 	
 	public double calcularValorPagar(DateTime fechaIngreso,DateTime fechaSalida,Vehiculo v){
-		double valorPagar=0;
-		double valorHoraMoto=500;
-		double valorHoraCarro=1000;
-		double valorDiaMoto=4000;
-		double valorDiaCarro=8000;
-		double valorAdicionalMotos=2000;
+		double valorPagar=0;		
 		Duration tiempoDeParqueo=new Duration(fechaIngreso,fechaSalida);
 		if(tiempoDeParqueo.getStandardMinutes()<540){
 			int horas=(int)(Math.ceil((float)tiempoDeParqueo.getStandardMinutes()/60));
-			valorPagar=v instanceof Moto?horas*valorHoraMoto:horas*valorHoraCarro;
+			valorPagar=v instanceof Moto?horas*precio.getValorHoraMoto():horas*precio.getValorHoraCarro();
 		}
 		else{	
 			Long dias=tiempoDeParqueo.getStandardDays();
 			if(dias==0){
-				valorPagar=v instanceof Moto?valorDiaMoto:valorDiaCarro;
+				valorPagar=v instanceof Moto?precio.getValorDiaMoto():precio.getValorDiaCarro();
 			}
 			else{
 				Long minutosUltimoDia=tiempoDeParqueo.getStandardMinutes()-dias*1440;
@@ -157,12 +157,12 @@ public class ParqueoLogic implements IParqueo{
 					dias+=1;
 					horasUlitmoDia=0;
 				}	
-				valorPagar=v instanceof Moto?dias*valorDiaMoto+horasUlitmoDia*valorHoraMoto
-											:dias*valorDiaCarro+horasUlitmoDia*valorHoraCarro;
+				valorPagar=v instanceof Moto?dias*precio.getValorDiaMoto()+horasUlitmoDia*precio.getValorHoraMoto()
+											:dias*precio.getValorDiaCarro()+horasUlitmoDia*precio.getValorHoraCarro();
 			}			
 		}
 		
-		valorPagar +=v instanceof Moto && v.getCilindraje()>500?valorAdicionalMotos:0;
+		valorPagar +=v instanceof Moto && v.getCilindraje()>500?precio.getValorAdicionalMotos():0;
 		
 		return valorPagar;
 	}

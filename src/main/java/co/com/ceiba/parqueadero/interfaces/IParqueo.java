@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-
-import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 
 public interface IParqueo {

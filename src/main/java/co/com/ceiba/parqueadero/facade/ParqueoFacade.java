@@ -2,7 +2,6 @@ package co.com.ceiba.parqueadero.facade;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
