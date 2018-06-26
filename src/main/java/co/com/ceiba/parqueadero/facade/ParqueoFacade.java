@@ -28,14 +28,14 @@ public class ParqueoFacade implements ParqueoFacadeInterface{
 
 	@Override
 	public void grabar(Parqueo p) {
-		repositorioParqueo.save(ParqueoBuilder.aEntity(p));	
+		repositorioParqueo.save(ParqueoBuilder.aEntity(p));
 	}
 
 	@Override
 	public void salir(Parqueo p) {
 		repositorioParqueo.salir(p.getFechaSalida().toDate(),p.getValorPagar(),p.getVehiculo().getPlaca());
 	}
-
+	
 	@Override
 	public Parqueo findByPlaca(String placa) {
 		return ParqueoBuilder.aDominio(repositorioParqueo.findByPlaca(placa));
