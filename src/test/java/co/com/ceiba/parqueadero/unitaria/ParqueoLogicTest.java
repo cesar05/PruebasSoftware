@@ -306,6 +306,38 @@ public class ParqueoLogicTest {
 			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(300).buildMoto();
 			double valorEsperado=8000;
 		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert			
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto(CILINDRAJE=600) en 2 minutos : debe ser 2500
+	 */
+	@Test
+	public void calcularValorPagarMoto600Test(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime(fechaIngreso).plusMinutes(2);			
+			Vehiculo v=new VehiculoTestDataBuilder().conCilindraje(600).buildMoto();
+			double valorEsperado=2500;
+		//Act			
+			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
+		//Assert			
+			assertTrue(valorPagar==valorEsperado);
+	}
+	
+	/**
+	 * Valor a pagar de una moto en 50 segundos : debe ser 0
+	 */
+	@Test
+	public void calcularValorPagarMotoSegundosTest(){
+		//Arrange
+			DateTime fechaIngreso=new DateTime();
+			DateTime fechaSalida=new DateTime(fechaIngreso).plusSeconds(50);			
+			Vehiculo v=new VehiculoTestDataBuilder().buildMoto();
+			double valorEsperado=0;
+		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 			System.out.println("valor a pagar="+valorPagar);
 		//Assert			

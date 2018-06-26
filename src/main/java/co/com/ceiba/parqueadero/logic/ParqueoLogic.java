@@ -1,7 +1,9 @@
 package co.com.ceiba.parqueadero.logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -77,8 +79,10 @@ public class ParqueoLogic implements IParqueo{
 		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
 		if(p==null){
 			throw new ParqueaderoException(VEHICULO_NO_ESTA_PARQUEADO);
-		}		
-		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), this.fechaActual, v));		
+		}				
+		v.setCilindraje(p.getVehiculo().getCilindraje());
+		p.setFechaSalida(this.fechaActual);		
+		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), p.getFechaSalida(), v));		
 		parqueoFacadeInterface.salir(p);
 		return p.getValorPagar();
 	}
@@ -163,8 +167,17 @@ public class ParqueoLogic implements IParqueo{
 	}
 
 	@Override
-	public List<Parqueo> vehiculosParqueados() {
+	public List<Map<String,String>> vehiculosParqueados() {
 		List<Parqueo> vehiculosParqueados=parqueoFacadeInterface.celdasOcupadas();
-		return vehiculosParqueados;
+		List<Map<String,String>> vehiculosParqueadosFormat=new ArrayList<>();
+		for(Parqueo p:vehiculosParqueados){
+			Map<String,String> json=new HashMap<>();
+			json.put("placa",p.getVehiculo().getPlaca());
+			json.put("tipo",p.getVehiculo() instanceof Moto?"Moto":"Carro");
+			json.put("fechaIngreso",p.getFechaIngreso().toString("yyyy/MM/dd hh:mm:ss"));
+			json.put("cilindraje",String.valueOf(p.getVehiculo().getCilindraje()));
+			vehiculosParqueadosFormat.add(json);
+		}
+		return vehiculosParqueadosFormat;
 	}
 }

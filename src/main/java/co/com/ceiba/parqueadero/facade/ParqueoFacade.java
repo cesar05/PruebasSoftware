@@ -33,7 +33,7 @@ public class ParqueoFacade implements ParqueoFacadeInterface{
 
 	@Override
 	public void salir(Parqueo p) {
-		repositorioParqueo.salir(DateTime.now().toDate(),p.getValorPagar(),p.getVehiculo().getPlaca());
+		repositorioParqueo.salir(p.getFechaSalida().toDate(),p.getValorPagar(),p.getVehiculo().getPlaca());
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -13,5 +14,5 @@ public interface IParqueo {
 	boolean sinRestricciones(Vehiculo v,int dia);
 	boolean disponible(Vehiculo v);
 	void fechaActul(DateTime fechaActual);
-	List<Parqueo> vehiculosParqueados();
+	List<Map<String,String>> vehiculosParqueados();
 }
