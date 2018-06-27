@@ -51,12 +51,6 @@ public class ParqueoLogic implements IParqueo{
 		this.fechaActual=new DateTime();
 	}
 	
-	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,VehiculoFacadeInterface vehiculoFacadeInterface){
-		super();
-		this.parqueoFacadeInterface=parqueoFacadeInterface;
-		this.vehiculoFacadeInterface=vehiculoFacadeInterface;
-	}
-	
 	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,VehiculoFacadeInterface vehiculoFacadeInterface,DateTime fechaActual){
 		super();
 		this.parqueoFacadeInterface=parqueoFacadeInterface;
@@ -64,11 +58,6 @@ public class ParqueoLogic implements IParqueo{
 		this.fechaActual=fechaActual;
 	}
 
-	public ParqueoLogic(ParqueoFacadeInterface parqueoFacadeInterface,DateTime fechaActual){
-		super();
-		this.parqueoFacadeInterface=parqueoFacadeInterface;
-		this.fechaActual=fechaActual;
-	}
 	
 	@Override
 	public boolean ingresar(Vehiculo v) {		

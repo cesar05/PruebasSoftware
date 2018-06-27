@@ -42,8 +42,10 @@ public class ParqueoTestDataBuilder {
 	public ParqueoTestDataBuilder conVehiculo(Vehiculo v){
 		this.vehiculo=v;
 		return this;
+	}	
+	public Parqueo build(){
+		return new Parqueo(this.fechaIngreso, this.fechaSalida, this.valorPagar, this.vehiculo);
 	}
-	
 	public Parqueo buildConMoto(){
 		this.vehiculo=MOTO;
 		return new Parqueo(this.fechaIngreso, this.fechaSalida, this.valorPagar, this.vehiculo);

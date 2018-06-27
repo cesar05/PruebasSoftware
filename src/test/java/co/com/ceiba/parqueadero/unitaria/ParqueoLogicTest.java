@@ -29,9 +29,9 @@ import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 @SpringBootTest
 public class ParqueoLogicTest {
 	
-	public static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
-	public static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
-	
+	private static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
+	private static final String CUPO_NO_DISPONIBLE="Cupo no disponible";
+	private static final double DELTA=0.01;
 	private static final int LUNES=1;
 	private static final int MIERCOLES=3;
 	private static final int DOMINGO=7;
@@ -212,7 +212,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -228,7 +228,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -260,7 +260,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -276,7 +276,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -292,7 +292,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert			
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -308,7 +308,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert			
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -324,7 +324,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);			
 		//Assert			
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -341,7 +341,7 @@ public class ParqueoLogicTest {
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 			System.out.println("valor a pagar="+valorPagar);
 		//Assert			
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -357,7 +357,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 	/**
@@ -373,7 +373,7 @@ public class ParqueoLogicTest {
 		//Act			
 			double valorPagar=parqueoLogic.calcularValorPagar(fechaIngreso, fechaSalida, v);
 		//Assert
-			assertTrue(valorPagar==valorEsperado);
+			assertEquals(valorPagar,valorEsperado,DELTA);
 	}
 	
 }
