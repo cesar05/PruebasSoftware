@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import co.com.ceiba.parqueadero.dominio.Carro;
 import co.com.ceiba.parqueadero.dominio.Moto;
@@ -19,6 +21,7 @@ import co.com.ceiba.parqueadero.dominio.Respuesta;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
+import co.com.ceiba.parqueadero.logic.ParqueoLogic;
 
 @RestController
 @CrossOrigin(origins="*")
@@ -30,7 +33,16 @@ public class ParqueoApi {
 	
 	@Autowired
 	private IParqueo iParqueo;
+		
+	public ParqueoApi(){
+		super();
+	}
 	
+	public ParqueoApi(IParqueo parqueoLogic){
+		super();
+		this.iParqueo=parqueoLogic;
+	}
+    
 	@PostMapping(value="/vehiculo")
 	public Respuesta ingresarVehiculo(@RequestBody Map<String, String> payload){
 		Vehiculo v;	
@@ -63,12 +75,8 @@ public class ParqueoApi {
 			v=new Carro(placa, cilindraje);
 		}		
 		iParqueo.fechaActul(new DateTime());
-		if(iParqueo.ingresar(v)){
-			return new Respuesta("Entrada registrada!");
-		}
-		else{
-			throw new ParqueaderoException("no fue posible registrar el ingreso");
-		}				
+		iParqueo.ingresar(v);
+		return new Respuesta("Entrada registrada!");			
 	}
 	
 	/**
@@ -93,7 +101,7 @@ public class ParqueoApi {
 	}
 	
 	@GetMapping("/vehiculo")
-	public List<Map<String,String>> prueba(){
+	public List<Map<String,String>> obtenerVehiculosParqueados(){
 		return iParqueo.vehiculosParqueados();
 	}
 }

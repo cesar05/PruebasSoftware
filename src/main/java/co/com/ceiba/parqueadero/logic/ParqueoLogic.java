@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import co.com.ceiba.parqueadero.dominio.Moto;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Precio;
-import co.com.ceiba.parqueadero.dominio.Restriccion;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
@@ -38,7 +37,7 @@ public class ParqueoLogic implements IParqueo{
 	private DateTime fechaActual;
 	
 	private static final Precio precio=new Precio(500, 1000, 4000, 8000, 2000);
-	//private static final List<Restriccion> restricciones=new ArrayList<>();
+	
 			
 	public ParqueoLogic() {
 		super();
