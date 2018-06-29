@@ -15,6 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,13 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
+			//String path = System.getProperty("user.dir");
+			System.setProperty("webdriver.chrome.driver","driver\\chromedriver");
 			//driver=new FirefoxDriver();
 			//ChromeDriverManager.getInstance().setup();
-			//ChromeOptions options=new ChromeOptions();
-			//options.addArguments("--headless");
-			driver = new ChromeDriver();
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);
 			
 			url="http://localhost:8080/";
 		}
