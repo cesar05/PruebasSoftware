@@ -15,6 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,7 +53,10 @@ public class AppParqueadero {
 			//System.setProperty("webdriver.gecko.driver",path+"\\driver\\geckodriver.exe");
 			//driver=new FirefoxDriver();
 			ChromeDriverManager.getInstance().setup();
-			driver = new ChromeDriver();
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);
+			
 			url="http://localhost:8080/";
 		}
 		catch(Exception e){
