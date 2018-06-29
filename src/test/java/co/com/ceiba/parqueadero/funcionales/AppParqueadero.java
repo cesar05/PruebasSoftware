@@ -43,7 +43,7 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.gecko.driver",path+"/driver/chromedriver");
+			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
 			//driver=new FirefoxDriver();
 			//ChromeDriverManager.getInstance().setup();
 			//ChromeOptions options=new ChromeOptions();
