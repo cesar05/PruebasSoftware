@@ -21,6 +21,7 @@ pipeline {
             steps{
                 echo "------------>Checkout<------------"
 				git branch: 'master', credentialsId: 'GitHub_cesar05', url: 'https://github.com/cesar05/Parqueadero-Ceiba.git'
+				git branch: 'master', credentialsId: 'GitHub_cesar05', url: 'https://github.com/cesar05/Parqueadero-Ceiba-Front.git'
 				sh 'gradle clean'
             }
         }
