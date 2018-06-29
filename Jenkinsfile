@@ -43,9 +43,13 @@ pipeline {
             }
         }
         stage('Functional Tests') {
+            agent{
+            	label "Slave3_Windows"
+            }
             steps {
-                echo "------------>Integration Tests<------------"
-                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
+            	echo "------------>Integration Tests<------------"            	
+            	git branch: 'master', credentialsId: 'GitHub_cesar05', url: 'https://github.com/cesar05/Parqueadero-Ceiba.git'                
+                bat 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Static Code Analysis') {
