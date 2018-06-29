@@ -33,19 +33,19 @@ pipeline {
         stage('Unit Tests') {
             steps{
                 echo "------------>Unit Tests<------------"
-                sh 'gradle --b ./build.gradle unitTest'
+                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Integration Tests') {
             steps {
                 echo "------------>Integration Tests<------------"
-                sh 'gradle --b ./build.gradle integrationTest'
+                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.integracion.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Functional Tests') {
             steps {
                 echo "------------>Integration Tests<------------"
-                sh 'gradle --b ./build.gradle functionalTest'
+                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Static Code Analysis') {

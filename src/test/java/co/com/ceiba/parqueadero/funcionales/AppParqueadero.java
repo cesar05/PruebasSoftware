@@ -46,7 +46,7 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		String path = System.getProperty("user.dir");
-		System.setProperty("webdriver.gecko.driver",path+"\\drive\\geckodriver.exe");
+		System.setProperty("webdriver.gecko.driver",path+"\\driver\\geckodriver.exe");
 		driver=new FirefoxDriver();
 		url="http://localhost:8080/";
 	}
@@ -119,14 +119,14 @@ public class AppParqueadero {
 			WebDriverWait wait=new WebDriverWait(driver, 5);			
 		//Act
 			webBtnRegistrar.click();
-			//Thread.sleep(tiempo);
+			Thread.sleep(tiempo);
 			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 			WebElement btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));
-			//Thread.sleep(tiempo);
+			Thread.sleep(tiempo);
 			btnVehiculo.click();
-			//Thread.sleep(tiempo);			
+			Thread.sleep(tiempo);			
 			wait.until(ExpectedConditions.alertIsPresent()).accept();
-			//Thread.sleep(tiempo);
+			Thread.sleep(tiempo);
 			try{
 				btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));				
 				fail();

@@ -1,0 +1,30 @@
+<div class="form-group">
+  <h4>Vehiculos Parqueados</h4>
+</div>
+<div class="alert alert-primary" *ngIf="vehiculosParqueados==undefined || vehiculosParqueados.length<=0">
+  No hay vehículos parqueado!
+</div>
+
+<div class="table-responsive" style="height: 300px;padding: 20px" *ngIf="vehiculosParqueados!=undefined && vehiculosParqueados.length>0">
+  <div class="form-group">
+    <input class="form-control form-control-sm" type="text" [(ngModel)]="filter" placeholder="Filtrar por placa">
+  </div>
+  <table class="table table-striped table-bordered" id="tblRegistros">
+    <thead>
+      <th>Placa</th>
+      <th>Tipo</th>
+      <th>Fecha Ingreso</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of vehiculosParqueados | filterVehiculo:filter">
+        <td>{{item.placa}}</td>
+        <td>{{item.tipo}}</td>
+        <td>{{item.fechaIngreso}}</td>
+        <td>
+          <button class="btn btn-info btn-sm btn-block" type="button" (click)="registrarSalida(item)" id="btnVehiculo{{item.placa}}">Salir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

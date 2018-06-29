@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-3">
+    <form>
+      <h4>Registro de entrada:</h4>
+      <div class="form-group">
+        <label for="placa">Placa:</label>
+        <input type="text" [(ngModel)]="vehiculo.placa" name="placa" id="placa" class="form-control" placeholder="Ingrese la placa"
+          maxlength="7">
+      </div>
+      <div class="form-group">
+        <label for="cilindraje">Cilindraje(En caso de moto):</label>
+        <input type="text" [(ngModel)]="vehiculo.cilindraje" name="cilindraje" id="cilindraje" class="form-control" placeholder="Cilindraje"
+          maxlength="6">
+      </div>
+      <button class="btn btn-primary btn-sm btn-block" type="button" (click)="registrar()" id="btnRegistrar">Registrar</button>
+    </form>
+    <br>
+    <div class="alert " [class.alert-warning]="!resultado.estado" [class.alert-success]="resultado.estado" role="alert" *ngIf="resultado!=undefined"
+      id="msjIngreso">
+      {{resultado.msj}}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <app-vehiculos [vehiculosParqueados]="vehiculosParqueados" [recibo]="recibo"></app-vehiculos>
+  </div>
+  <div class="col-md-3">
+    <app-vehiculo-recibo [recibo]="recibo"></app-vehiculo-recibo>
+  </div>
+</div>
