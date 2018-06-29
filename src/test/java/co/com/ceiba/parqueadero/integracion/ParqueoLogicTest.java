@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import co.com.ceiba.parqueadero.dominio.Carro;
@@ -28,7 +29,7 @@ import co.com.ceiba.parqueadero.testdatabuilder.ParqueoTestDataBuilder;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 public class ParqueoLogicTest {
 	
 	private static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import co.com.ceiba.parqueadero.dominio.Carro;
@@ -23,10 +25,11 @@ import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.facade.ParqueoFacadeInterface;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
 import co.com.ceiba.parqueadero.logic.ParqueoLogic;
+import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 public class ParqueoLogicTest {
 	
 	private static final String CON_RESTRICCIONES="Tiene restricciones: No es un dia habil para su vehiculo";
@@ -44,9 +47,18 @@ public class ParqueoLogicTest {
 		
 	private ParqueoLogic parqueoLogic;
 	
+	@Autowired
+	private RespositorioParqueo repositorioParqueo;
+	
 	@Before
 	public void inicializacion(){
 		parqueoLogic=new ParqueoLogic(parqueoFacadeInterface);
+		repositorioParqueo.deleteAll();
+	}
+	
+	@After
+	public void finalizacion(){
+		repositorioParqueo.deleteAll();
 	}
 	
 	@Test

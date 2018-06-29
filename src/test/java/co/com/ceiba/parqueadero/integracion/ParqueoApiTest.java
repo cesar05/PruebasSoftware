@@ -6,19 +6,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.parqueadero.api.ParqueoApi;
 import co.com.ceiba.parqueadero.dominio.Respuesta;
 import co.com.ceiba.parqueadero.exception.ParqueaderoException;
 import co.com.ceiba.parqueadero.interfaces.IParqueo;
+import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 public class ParqueoApiTest {
 	
 	private static final Respuesta RESPUESTA=new Respuesta("Entrada registrada!");
@@ -30,9 +33,17 @@ public class ParqueoApiTest {
 	@Autowired
 	IParqueo iParqueo;
 	
+	@Autowired
+	private RespositorioParqueo repositorioParqueo;
+	
 	@Before
 	public void inicializacion(){
-		this.api=new ParqueoApi(iParqueo); 
+		this.api=new ParqueoApi(iParqueo);
+		repositorioParqueo.deleteAll();
+	}
+	@After
+	public void finalizacion(){
+		repositorioParqueo.deleteAll();
 	}
 	
 	@Test

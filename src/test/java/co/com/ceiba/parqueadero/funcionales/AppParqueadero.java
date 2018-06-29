@@ -34,17 +34,21 @@ public class AppParqueadero {
 	private static final String REGISTRO="Entrada registrada!";
 	
 	private static WebDriver driver=null;	
-	
-	/*@LocalServerPort
-	private int puerto;
+	/*
+	@LocalServerPort
+	private static String PUERTO;	
 	*/
+	private static String url;
+	
 	@Autowired
 	private RespositorioParqueo repositorioParqueo;
 	
 	@BeforeClass
 	public static void inicializarDriver(){
-		System.setProperty("webdriver.gecko.driver","C:\\Users\\cesar.munoz\\Downloads\\geckodriver.exe");
+		String path = System.getProperty("user.dir");
+		System.setProperty("webdriver.gecko.driver",path+"\\drive\\geckodriver.exe");
 		driver=new FirefoxDriver();
+		url="http://localhost:8080/";
 	}
 	
 	@AfterClass
@@ -63,7 +67,7 @@ public class AppParqueadero {
 	@Test
 	public void appIngresarVehiculoTest(){
 		//Arrange
-			driver.get("http://localhost:4200/");
+			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
@@ -82,7 +86,7 @@ public class AppParqueadero {
 	@Test
 	public void appIngresar100VehiculoTest(){
 		//Arrange
-			driver.get("http://localhost:4200/");
+			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));			
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 			WebDriverWait wait=new WebDriverWait(driver, 10);
@@ -108,21 +112,21 @@ public class AppParqueadero {
 		//Arrange
 			Long tiempo=2000l;
 			String placa="BCD789";
-			driver.get("http://localhost:4200/");
+			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys(placa);
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 			WebDriverWait wait=new WebDriverWait(driver, 5);			
 		//Act
 			webBtnRegistrar.click();
-			Thread.sleep(tiempo);
+			//Thread.sleep(tiempo);
 			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 			WebElement btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));
-			Thread.sleep(tiempo);
+			//Thread.sleep(tiempo);
 			btnVehiculo.click();
-			Thread.sleep(tiempo);			
+			//Thread.sleep(tiempo);			
 			wait.until(ExpectedConditions.alertIsPresent()).accept();
-			Thread.sleep(tiempo);
+			//Thread.sleep(tiempo);
 			try{
 				btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));				
 				fail();

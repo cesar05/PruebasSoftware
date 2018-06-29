@@ -48,3 +48,85 @@ test{
 	}
 	reports.junitXml.destination=file("build/jacoco/test-results")
 }
+
+
+def webappDir = "./../Parqueadero-Ceiba-Front"
+
+sourceSets {
+	main {
+		resources {
+			srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources"]
+		}
+	}
+	unitTest{
+		resources.srcDir file('src/test/java/co/com/ceiba/parqueadero/unitaria')
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+	}
+	integrationTest {
+        resources.srcDir file('src/test/java/co/com/ceiba/parqueadero/integracion')
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+    functionalTest {
+        resources.srcDir file('src/test/java/co/com/ceiba/parqueadero/funcionales')
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+processResources {
+	dependsOn "buildAngular"
+}
+
+task buildAngular(type:Exec) {
+	// installAngular should be run prior to this task
+	dependsOn "installAngular"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	// Add task to the standard build group
+	group = BasePlugin.BUILD_GROUP
+	// ng doesn't exist as a file in windows -> ng.cmd
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "ng.cmd", "build"
+	} else {
+		commandLine "ng", "build"
+	}
+}
+
+task installAngular(type:Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "install"
+	}
+}
+
+task unitTest(type: Test) {
+    description = 'Runs the unit tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+}
+
+task integrationTest(type: Test) {
+	
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+}
+
+task functionalTest(type: Test) {
+	
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+}
