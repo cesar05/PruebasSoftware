@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.qos.logback.core.db.dialect.MsSQLDialect;
 import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
@@ -45,10 +47,17 @@ public class AppParqueadero {
 	
 	@BeforeClass
 	public static void inicializarDriver(){
-		String path = System.getProperty("user.dir");
-		System.setProperty("webdriver.gecko.driver",path+"\\driver\\geckodriver.exe");
-		driver=new FirefoxDriver();
-		url="http://localhost:8080/";
+		try{
+			//String path = System.getProperty("user.dir");
+			//System.setProperty("webdriver.gecko.driver",path+"\\driver\\geckodriver.exe");
+			//driver=new FirefoxDriver();
+			ChromeDriverManager.getInstance().setup();
+			driver = new ChromeDriver();
+			url="http://localhost:8080/";
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	@AfterClass
