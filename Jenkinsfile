@@ -45,7 +45,7 @@ pipeline {
         stage('Functional Tests') {
             steps {
                 echo "------------>Integration Tests<------------"
-                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
+                //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Static Code Analysis') {
