@@ -38,14 +38,6 @@ dependencies {
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.13.0'
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '3.13.0'
 	
-	testCompile("io.github.bonigarcia:webdrivermanager:1.4.1") {
-      exclude group: 'org.seleniumhq.selenium'
-   	}
-   
-   // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
-	//testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.2.3'
-   
-	
 }
 
 test{

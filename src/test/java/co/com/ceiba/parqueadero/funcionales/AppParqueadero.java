@@ -15,20 +15,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import ch.qos.logback.core.db.dialect.MsSQLDialect;
 import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
@@ -49,13 +42,13 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			//String path = System.getProperty("user.dir");
-			//System.setProperty("webdriver.gecko.driver",path+"\\driver\\geckodriver.exe");
+			String path = System.getProperty("user.dir");
+			System.setProperty("webdriver.gecko.driver",path+"/driver/chromedriver");
 			//driver=new FirefoxDriver();
-			ChromeDriverManager.getInstance().setup();
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");
-			driver = new ChromeDriver(options);
+			//ChromeDriverManager.getInstance().setup();
+			//ChromeOptions options=new ChromeOptions();
+			//options.addArguments("--headless");
+			driver = new ChromeDriver();
 			
 			url="http://localhost:8080/";
 		}
