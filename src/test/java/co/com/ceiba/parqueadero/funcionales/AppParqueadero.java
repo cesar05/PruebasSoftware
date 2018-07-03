@@ -80,9 +80,10 @@ public class AppParqueadero {
 	 */
 	@Test
 	public void appIngresarVehiculoTest(){
-		//Arrange			
+		//Arrange		
+		try{
 			String path = System.getProperty("user.dir");
-			System.out.println(path);
+			System.out.println("Ruta :"+path);
 			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
@@ -99,6 +100,13 @@ public class AppParqueadero {
 			WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
 		//Assert
 			assertEquals(REGISTRO,msjIngreso.getText());
+		}
+		catch(SessionNotCreatedException e){
+			System.out.println("Ruta :"+e.getMessage());
+		}
+		catch(Exception e){
+			System.out.println("Ruta :"+e.getMessage());
+		}
 			
 	}
 	
