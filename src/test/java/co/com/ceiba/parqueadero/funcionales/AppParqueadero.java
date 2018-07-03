@@ -22,11 +22,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
 public class AppParqueadero {
 	
 	private static final String REGISTRO="Entrada registrada!";
@@ -81,6 +83,8 @@ public class AppParqueadero {
 			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
+			options.addArguments("disable-gpu");
+			options.addArguments("window-size=1200,1100");
 			driver = new ChromeDriver(options);
 			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
