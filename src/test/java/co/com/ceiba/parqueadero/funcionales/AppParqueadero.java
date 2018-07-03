@@ -43,7 +43,7 @@ public class AppParqueadero {
 	private RespositorioParqueo repositorioParqueo;
 	
 	@BeforeClass
-	public static void inicializarDriver(){
+	public void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
