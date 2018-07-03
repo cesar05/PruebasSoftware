@@ -43,13 +43,13 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			//String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver","driver\\chromedriver");
-			//driver=new FirefoxDriver();
-			//ChromeDriverManager.getInstance().setup();
+			String path = System.getProperty("user.dir");
+			System.out.println(path);
+			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
-			driver = new ChromeDriver(options);
+			//driver = new ChromeDriver(options);
+			driver = new ChromeDriver();
 			
 			url="http://localhost:8080/";
 		}
