@@ -84,7 +84,8 @@ public class AppParqueadero {
 		try{
 			String path = System.getProperty("user.dir");
 			System.out.println("Ruta :"+path);
-			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			System.setProperty("webdriver.chrome.driver","/opt/Jenkins/workspace/CeibaInduccion/Ceiba-Estacionamiento(cesar.munoz)/libs/chromedriver");
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
 			driver = new ChromeDriver(options);	
@@ -103,9 +104,13 @@ public class AppParqueadero {
 		}
 		catch(SessionNotCreatedException e){
 			System.out.println("Ruta :"+e.getMessage());
+			e.printStackTrace();
+		//	fail();
 		}
 		catch(Exception e){
 			System.out.println("Ruta :"+e.getMessage());
+			e.printStackTrace();
+	//		fail();
 		}
 			
 	}
