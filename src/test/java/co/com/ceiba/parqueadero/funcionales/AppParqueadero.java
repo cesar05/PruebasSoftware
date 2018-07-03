@@ -45,7 +45,7 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver",path+"/driver/geckodriver");			
+			System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");			
 			//ChromeOptions options=new ChromeOptions();
 			//options.addArguments("--headless");
 			//driver = new ChromeDriver(options);
