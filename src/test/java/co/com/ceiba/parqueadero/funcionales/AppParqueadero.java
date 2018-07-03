@@ -45,11 +45,12 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");			
-			//ChromeOptions options=new ChromeOptions();
-			//options.addArguments("--headless");
-			//driver = new ChromeDriver(options);
-			driver = new FirefoxDriver();
+			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
+			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);
+			//driver = new FirefoxDriver();
 			
 			url="http://localhost:8080/";
 		}
