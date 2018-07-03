@@ -88,6 +88,17 @@ public class AppParqueadero {
 				options.addArguments("--headless");
 				driver = new ChromeDriver(options);	
 				driver.get(url);
+			
+				WebElement webPlaca=driver.findElement(By.id("placa"));
+				webPlaca.sendKeys("BCD787");
+				WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
+				WebDriverWait wait=new WebDriverWait(driver, 10);			
+		//Act
+				webBtnRegistrar.click();
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
+		//Assert
+				assertEquals(REGISTRO,msjIngreso.getText());
 			}
 			catch(SessionNotCreatedException e){
 				System.err.println(e);
@@ -95,16 +106,6 @@ public class AppParqueadero {
 			catch(Exception e){
 				System.err.println(e.getMessage());
 			}
-			WebElement webPlaca=driver.findElement(By.id("placa"));
-			webPlaca.sendKeys("BCD787");
-			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
-			WebDriverWait wait=new WebDriverWait(driver, 10);			
-		//Act
-			webBtnRegistrar.click();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
-		//Assert
-			assertEquals(REGISTRO,msjIngreso.getText());			
 	}
 	
 	/**
