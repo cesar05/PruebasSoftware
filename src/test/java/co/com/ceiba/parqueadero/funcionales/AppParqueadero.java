@@ -82,6 +82,11 @@ public class AppParqueadero {
 	public void appIngresarVehiculoTest(){
 		//Arrange
 			try{
+				String path = System.getProperty("user.dir");
+				System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+				ChromeOptions options=new ChromeOptions();
+				options.addArguments("--headless");
+				driver = new ChromeDriver(options);	
 				driver.get(url);
 			}
 			catch(SessionNotCreatedException e){
