@@ -37,24 +37,23 @@ public class AppParqueadero {
 	@LocalServerPort
 	private static String PUERTO;	
 	*/
-	private static String url;
+	private static final String URL="http://localhost:8080/";
 	
 	@Autowired
 	private RespositorioParqueo repositorioParqueo;
 	
-	@BeforeClass
+	/*@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			String path = System.getProperty("user.dir");
-			System.out.println("Ruta actual:"+path);
+			//String path = System.getProperty("user.dir");
+			//System.out.println("Ruta actual:"+path);
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			//ChromeOptions options=new ChromeOptions();
 			//options.addArguments("--headless");
 			//driver = new ChromeDriver(options);			
-			//driver = new FirefoxDriver();
-			url="http://localhost:8080/";
+			//driver = new FirefoxDriver();			
 		}
 		catch(SessionNotCreatedException e){
 			System.err.println(e);
@@ -62,7 +61,7 @@ public class AppParqueadero {
 		catch(Exception e){
 			System.out.println(e.getMessage());
 		}
-	}
+	}*/
 	
 	@AfterClass
 	public static void liberarDriver(){
@@ -83,11 +82,12 @@ public class AppParqueadero {
 	public void appIngresarVehiculoTest(){
 		//Arrange			
 			String path = System.getProperty("user.dir");
+			System.out.println(path);
 			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
 			driver = new ChromeDriver(options);	
-			driver.get(url);
+			driver.get(URL);
 		
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
