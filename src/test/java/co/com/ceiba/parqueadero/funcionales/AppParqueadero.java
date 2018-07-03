@@ -43,12 +43,13 @@ public class AppParqueadero {
 	private RespositorioParqueo repositorioParqueo;
 	
 	@BeforeClass
-	public void inicializarDriver(){
+	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
+			System.out.println(path);
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			//ChromeOptions options=new ChromeOptions();
 			//options.addArguments("--headless");
 			//driver = new ChromeDriver(options);			
@@ -81,8 +82,8 @@ public class AppParqueadero {
 	@Test
 	public void appIngresarVehiculoTest(){
 		//Arrange			
-			//String path = System.getProperty("user.dir");
-			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			String path = System.getProperty("user.dir");
+			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
 			driver = new ChromeDriver(options);	
