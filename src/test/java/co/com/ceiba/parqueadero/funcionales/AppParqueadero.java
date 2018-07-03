@@ -49,9 +49,9 @@ public class AppParqueadero {
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
 			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");
-			driver = new ChromeDriver(options);			
+			//ChromeOptions options=new ChromeOptions();
+			//options.addArguments("--headless");
+			//driver = new ChromeDriver(options);			
 			//driver = new FirefoxDriver();
 			url="http://localhost:8080/";
 		}
@@ -80,32 +80,25 @@ public class AppParqueadero {
 	 */
 	@Test
 	public void appIngresarVehiculoTest(){
-		//Arrange
-			try{
-				String path = System.getProperty("user.dir");
-				System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
-				ChromeOptions options=new ChromeOptions();
-				options.addArguments("--headless");
-				driver = new ChromeDriver(options);	
-				driver.get(url);
-			
-				WebElement webPlaca=driver.findElement(By.id("placa"));
-				webPlaca.sendKeys("BCD787");
-				WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
-				WebDriverWait wait=new WebDriverWait(driver, 10);			
+		//Arrange			
+			//String path = System.getProperty("user.dir");
+			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);	
+			driver.get(url);
+		
+			WebElement webPlaca=driver.findElement(By.id("placa"));
+			webPlaca.sendKeys("BCD787");
+			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
+			WebDriverWait wait=new WebDriverWait(driver, 10);			
 		//Act
-				webBtnRegistrar.click();
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-				WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
+			webBtnRegistrar.click();
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
 		//Assert
-				assertEquals(REGISTRO,msjIngreso.getText());
-			}
-			catch(SessionNotCreatedException e){
-				System.err.println(e);
-			}
-			catch(Exception e){
-				System.err.println(e.getMessage());
-			}
+			assertEquals(REGISTRO,msjIngreso.getText());
+			
 	}
 	
 	/**
