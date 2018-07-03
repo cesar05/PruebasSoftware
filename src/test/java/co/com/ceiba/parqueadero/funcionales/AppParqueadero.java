@@ -48,8 +48,10 @@ public class AppParqueadero {
 			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
-			//driver = new ChromeDriver(options);
-			driver = new ChromeDriver();
+			options.addArguments("disable-gpu");
+			//options.addArguments("window-size=1200,1100");
+			driver = new ChromeDriver(options);
+			//driver = new ChromeDriver();
 			
 			url="http://localhost:8080/";
 		}
