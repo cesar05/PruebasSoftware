@@ -46,7 +46,7 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.out.println(path);
+			System.out.println("Ruta actual:"+path);
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
