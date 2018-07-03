@@ -44,15 +44,11 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.out.println(path);
 			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
 			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");
-			options.addArguments("disable-gpu");
-			//options.addArguments("window-size=1200,1100");
+			options.addArguments("--headless");			
 			driver = new ChromeDriver(options);
-			//driver = new ChromeDriver();
-			
+			//driver = new ChromeDriver();			
 			url="http://localhost:8080/";
 		}
 		catch(Exception e){
@@ -62,7 +58,9 @@ public class AppParqueadero {
 	
 	@AfterClass
 	public static void liberarDriver(){
-		driver.quit();
+		if(driver!=null){
+			driver.quit();
+		}
 	}
 	
 	@Before
@@ -76,7 +74,12 @@ public class AppParqueadero {
 	@Test
 	public void appIngresarVehiculoTest(){
 		//Arrange
-			driver.get(url);
+			String path = System.getProperty("user.dir");
+			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");			
+			driver = new ChromeDriver(options);
+			driver.get("http://localhost:8080/");
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
