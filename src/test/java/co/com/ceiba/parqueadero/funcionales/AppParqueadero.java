@@ -28,7 +28,6 @@ import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
 public class AppParqueadero {
 	
 	private static final String REGISTRO="Entrada registrada!";
