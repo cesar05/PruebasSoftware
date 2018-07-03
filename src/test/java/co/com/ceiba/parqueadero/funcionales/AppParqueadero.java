@@ -45,12 +45,13 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			//String path = System.getProperty("user.dir");
+			String path = System.getProperty("user.dir");
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
-			//System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
-			//ChromeOptions options=new ChromeOptions();
-			//options.addArguments("--headless");
-			//driver = new ChromeDriver(options);
+			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);
 			//driver = new FirefoxDriver();
 			
 			url="http://localhost:8080/";
@@ -77,12 +78,7 @@ public class AppParqueadero {
 	 */
 	@Test
 	public void appIngresarVehiculoTest(){
-		//Arrange
-			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");			
-			driver = new ChromeDriver(options);
+		//Arrange			
 			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
@@ -99,7 +95,7 @@ public class AppParqueadero {
 	/**
 	 * Se registran 20 vehiculos
 	 */
-	/*@Test
+	@Test
 	public void appIngresar100VehiculoTest(){
 		//Arrange
 			driver.get(url);
@@ -117,13 +113,13 @@ public class AppParqueadero {
 				assertEquals(REGISTRO,msjIngreso.getText());
 			}
 					
-	}*/
+	}
 	
 	/**
 	 * Se ingresa una vehiculo y sacarlo
 	 * @throws InterruptedException 
 	 */
-	/*@Test
+	@Test
 	public void appRegistrarSalidaVehiculoTest() throws InterruptedException{
 		//Arrange
 			Long tiempo=2000l;
@@ -151,5 +147,5 @@ public class AppParqueadero {
 		//Assert
 				assertTrue(true);
 			}
-	}*/
+	}
 }
