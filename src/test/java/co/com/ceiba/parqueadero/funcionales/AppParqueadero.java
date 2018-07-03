@@ -81,9 +81,7 @@ public class AppParqueadero {
 			String path = System.getProperty("user.dir");
 			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");
 			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");
-			options.addArguments("disable-gpu");
-			options.addArguments("window-size=1200,1100");
+			options.addArguments("--headless");			
 			driver = new ChromeDriver(options);
 			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
