@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +45,12 @@ public class AppParqueadero {
 	public static void inicializarDriver(){
 		try{
 			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");			
-			driver = new ChromeDriver(options);
-			//driver = new ChromeDriver();			
+			System.setProperty("webdriver.chrome.driver",path+"/driver/geckodriver");			
+			//ChromeOptions options=new ChromeOptions();
+			//options.addArguments("--headless");
+			//driver = new ChromeDriver(options);
+			driver = new FirefoxDriver();
+			
 			url="http://localhost:8080/";
 		}
 		catch(Exception e){
@@ -74,12 +76,7 @@ public class AppParqueadero {
 	@Test
 	public void appIngresarVehiculoTest(){
 		//Arrange
-			String path = System.getProperty("user.dir");
-			System.setProperty("webdriver.chrome.driver",path+"/driver/chromedriver");			
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");			
-			driver = new ChromeDriver(options);
-			driver.get("http://localhost:8080/");
+			driver.get(url);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
