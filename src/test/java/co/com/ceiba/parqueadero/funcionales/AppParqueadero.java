@@ -47,11 +47,12 @@ public class AppParqueadero {
 	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			String path = System.getProperty("user.dir");
-			//System.out.println("Ruta actual:"+path);
-			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
-			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver","libs/chromedriver");
+			if(System.getProperty("os.name").equalsIgnoreCase("Linux")){
+				System.setProperty("webdriver.chrome.driver","libs/chromedriver");
+			}
+			else{
+				System.setProperty("webdriver.chrome.driver","libs/chromedriver.exe");
+			}
 			ChromeOptions options=new ChromeOptions();
 			options.addArguments("--headless");
 			driver = new ChromeDriver(options);
@@ -133,13 +134,10 @@ public class AppParqueadero {
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 			WebDriverWait wait=new WebDriverWait(driver, 5);			
 		//Act
-			webBtnRegistrar.click();
-			Thread.sleep(tiempo);
+			webBtnRegistrar.click();			
 			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-			WebElement btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));
-			Thread.sleep(tiempo);
-			btnVehiculo.click();
-			Thread.sleep(tiempo);			
+			WebElement btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));			
+			btnVehiculo.click();				
 			wait.until(ExpectedConditions.alertIsPresent()).accept();
 			Thread.sleep(tiempo);
 			try{
@@ -184,13 +182,5 @@ public class AppParqueadero {
 			assertEquals(cilindraje,Integer.parseInt(webRecCilindraje.getText().trim()));
 			assertEquals(valorEsperado, Integer.parseInt(webRecValorPagar.getText().trim()));
 	}*/
-	/*
-	@Test
-	public void validarBotonImprimir(){
-		//Arrange
-			driver.get(URL);
-			//WebElement webBtnImprimir
-		//Act
-		//Assert
-	}*/
+	
 }
