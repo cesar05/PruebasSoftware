@@ -33,8 +33,8 @@ pipeline {
         stage('Unit Tests') {
             steps{
                 echo "------------>Unit Tests<------------"
-                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
-                //sh 'gradle --b ./build.gradle test -x installAngular -x buildAngular -x compileJava'
+                //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
+                sh 'gradle --b ./build.gradle test'
             }
         }
         stage('Integration Tests') {
