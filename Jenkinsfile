@@ -40,6 +40,7 @@ pipeline {
         stage('Integration Tests') {
             steps {
                 echo "------------>Integration Tests<------------"
+                sh 'gradle integrationTest'
                 //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.integracion.* -x installAngular -x buildAngular -x compileJava'
             }
         }
@@ -49,8 +50,7 @@ pipeline {
             	sh 'chmod +x  libs/chromedriver'  
             	sh 'ls -la libs/'
             	sh 'pwd'
-            	sh 'ls'
-            	//sh 'gradle --b ./build.gradle test'
+            	sh 'ls'            	
             	//sh 'cat build/reports/tests/test/classes/co.com.ceiba.parqueadero.funcionales.AppParqueadero.html'
                 //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }
