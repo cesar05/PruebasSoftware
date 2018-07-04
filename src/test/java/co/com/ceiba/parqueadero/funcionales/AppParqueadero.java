@@ -52,9 +52,9 @@ public class AppParqueadero {
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
 			System.setProperty("webdriver.chrome.driver","libs/chromedriver");
-			//ChromeOptions options=new ChromeOptions();
-			//options.addArguments("--headless");
-			driver = new ChromeDriver();
+			ChromeOptions options=new ChromeOptions();
+			options.addArguments("--headless");
+			driver = new ChromeDriver(options);
 			//driver = new FirefoxDriver();			
 		}
 		catch(SessionNotCreatedException e){
