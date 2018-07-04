@@ -51,7 +51,7 @@ public class AppParqueadero {
 			//System.out.println("Ruta actual:"+path);
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			System.setProperty("webdriver.chrome.driver","libs/chromedriver");
 			//ChromeOptions options=new ChromeOptions();
 			//options.addArguments("--headless");
 			driver = new ChromeDriver();

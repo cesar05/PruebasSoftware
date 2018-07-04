@@ -46,7 +46,8 @@ pipeline {
             steps {
             	echo "------------>Functional Tests<------------"  
             	sh 'chmod +x  libs/chromedriver'  
-            	sh 'ls -la libs/'      	
+            	sh 'ls -la libs/'
+            	sh 'cat build/reports/tests/test/classes/co.com.ceiba.parqueadero.funcionales.AppParqueadero.html'
                 sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }
         }
