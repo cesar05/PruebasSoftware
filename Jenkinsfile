@@ -55,7 +55,7 @@ pipeline {
         }
         stage('Static Code Analysis') {
             steps{
-            	sh 'gradle --b ./build.gradle jacocoTestReport'
+            	sh 'gradle --b ./build.gradle test'
                 echo '------------>Análisis de código estático<------------'
                 withSonarQubeEnv('Sonar') {
 					sh "${tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dsonar.organization=cesar05-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=8458aa38edc4b1be60aca74ce69202bd34130075"
