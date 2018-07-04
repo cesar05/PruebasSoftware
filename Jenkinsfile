@@ -34,7 +34,7 @@ pipeline {
             steps{
                 echo "------------>Unit Tests<------------"
                 //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
-                //sh 'gradle --b ./build.gradle test'
+                sh 'gradle unitTest'
             }
         }
         stage('Integration Tests') {
@@ -50,7 +50,7 @@ pipeline {
             	sh 'ls -la libs/'
             	sh 'pwd'
             	sh 'ls'
-            	sh 'gradle --b ./build.gradle test'
+            	//sh 'gradle --b ./build.gradle test'
             	//sh 'cat build/reports/tests/test/classes/co.com.ceiba.parqueadero.funcionales.AppParqueadero.html'
                 //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.funcionales.* -x installAngular -x buildAngular -x compileJava'
             }

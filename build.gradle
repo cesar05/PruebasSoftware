@@ -56,7 +56,42 @@ sourceSets {
 			srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources"]
 		}
 	}
+	unitTest{
+		java{
+	        srcDir file('src/test/java')
+	        resources.srcDir files('src/test/resources')
+	        compileClasspath += sourceSets.main.output + configurations.testRuntime
+	        runtimeClasspath += output + compileClasspath
+        }
+    }
+	integrationTest{
+		java{
+	        srcDir file('src/integration-test/java')
+	        resources.srcDir files('src/test/resources')
+	        compileClasspath += sourceSets.main.output + configurations.testRuntime
+	        runtimeClasspath += output + compileClasspath
+        }
+    }
+    
 }
+
+task unitTest(type: Test) {
+    description = 'Runs the unit tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.unitTest.output.classesDirs
+    classpath = sourceSets.unitTest.runtimeClasspath
+    mustRunAfter test
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+}
+
+check.dependsOn integrationTest
 
 processResources {
 	dependsOn "buildAngular"
