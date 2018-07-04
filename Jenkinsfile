@@ -33,13 +33,14 @@ pipeline {
         stage('Unit Tests') {
             steps{
                 echo "------------>Unit Tests<------------"
-                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
+                //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* -x installAngular -x buildAngular -x compileJava'
+                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.unitaria.* co.com.ceiba.parqueadero.integracion.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Integration Tests') {
             steps {
                 echo "------------>Integration Tests<------------"
-                sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.integracion.* -x installAngular -x buildAngular -x compileJava'
+                //sh 'gradle --b ./build.gradle test --tests co.com.ceiba.parqueadero.integracion.* -x installAngular -x buildAngular -x compileJava'
             }
         }
         stage('Functional Tests') {            
@@ -55,7 +56,7 @@ pipeline {
         }
         stage('Static Code Analysis') {
             steps{
-            	sh 'gradle --b ./build.gradle jacocoTestReport'
+            	//sh 'gradle --b ./build.gradle jacocoTestReport'
                 echo '------------>Análisis de código estático<------------'
                 withSonarQubeEnv('Sonar') {
 					sh "${tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dsonar.organization=cesar05-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=8458aa38edc4b1be60aca74ce69202bd34130075"
