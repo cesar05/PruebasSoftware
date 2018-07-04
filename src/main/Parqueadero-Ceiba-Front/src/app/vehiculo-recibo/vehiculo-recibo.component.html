@@ -3,11 +3,11 @@
 </div>
 <div class="form-group">
   <label>Placa:</label>
-  <span>{{recibo.placa}}</span>
+  <span id="recPlaca">{{recibo.placa}}</span>
 </div>
 <div class="form-group">
   <label>Cilindraje:</label>
-  <span>{{recibo.cilindraje}}</span>
+  <span id="recCilindraje">{{recibo.cilindraje}}</span>
 </div>
 <div class="form-group">
   <label>Fecha Entrada:</label>
@@ -15,6 +15,6 @@
 </div>
 <div class="form-group">
   <label>Valor Pagar:</label>
-  <span>{{recibo.valorPagar}}</span>
+  <span id="recValorPagar">{{recibo.valorPagar}}</span>
 </div>
-<button class="btn btn-info btn-sm btn-block">Imprimir</button>
+<button class="btn btn-info btn-sm btn-block" type="button" (click)="imprimir()" id="btnImprimir">Imprimir</button>

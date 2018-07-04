@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import co.com.ceiba.parqueadero.dominio.Moto;
 import co.com.ceiba.parqueadero.repositorio.RespositorioParqueo;
 
 @RunWith(SpringRunner.class)
@@ -42,17 +44,17 @@ public class AppParqueadero {
 	@Autowired
 	private RespositorioParqueo repositorioParqueo;
 	
-	/*@BeforeClass
+	@BeforeClass
 	public static void inicializarDriver(){
 		try{
-			//String path = System.getProperty("user.dir");
+			String path = System.getProperty("user.dir");
 			//System.out.println("Ruta actual:"+path);
 			//System.setProperty("webdriver.gecko.driver",path+"/driver/geckodriver");
 			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver.exe");
-			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
+			System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
 			//ChromeOptions options=new ChromeOptions();
 			//options.addArguments("--headless");
-			//driver = new ChromeDriver(options);			
+			driver = new ChromeDriver();
 			//driver = new FirefoxDriver();			
 		}
 		catch(SessionNotCreatedException e){
@@ -61,7 +63,7 @@ public class AppParqueadero {
 		catch(Exception e){
 			System.out.println(e.getMessage());
 		}
-	}*/
+	}
 	
 	@AfterClass
 	public static void liberarDriver(){
@@ -81,48 +83,25 @@ public class AppParqueadero {
 	@Test
 	public void appIngresarVehiculoTest(){
 		//Arrange		
-		//try{
-			String path = System.getProperty("user.dir");
-			System.out.println("Ruta :"+path);
-			//System.setProperty("webdriver.chrome.driver",path+"/libs/chromedriver");
-			//System.setProperty("webdriver.chrome.driver","//opt/Jenkins/workspace/CeibaInduccion/Ceiba-Estacionamiento(cesar.munoz)/Parqueadero-Ceiba/libs/chromedriver");
-			System.setProperty("webdriver.chrome.driver","libs/chromedriver");
-			ChromeOptions options=new ChromeOptions();
-			options.addArguments("--headless");
-			driver = new ChromeDriver(options);	
-			driver.get(URL);
-		
+			driver.get(URL);		
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
-			WebDriverWait wait=new WebDriverWait(driver, 10);			
 		//Act
 			webBtnRegistrar.click();
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			WebElement msjIngreso=driver.findElement(By.id("msjIngreso"));
 		//Assert
-			assertEquals(REGISTRO,msjIngreso.getText());
-		/*}
-		catch(SessionNotCreatedException e){
-			System.out.println("Ruta :"+e.getMessage());
-			e.printStackTrace();
-		//	fail();
-		}
-		catch(Exception e){
-			System.out.println("Ruta :"+e.getMessage());
-			e.printStackTrace();
-	//		fail();
-		}*/
-			
+			assertEquals(REGISTRO,msjIngreso.getText());		
 	}
 	
 	/**
 	 * Se registran 20 vehiculos
 	 */
-	/*@Test
+	@Test
 	public void appIngresar100VehiculoTest(){
 		//Arrange
-			driver.get(url);
+			driver.get(URL);
 			WebElement webPlaca=driver.findElement(By.id("placa"));			
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 			WebDriverWait wait=new WebDriverWait(driver, 10);
@@ -137,18 +116,18 @@ public class AppParqueadero {
 				assertEquals(REGISTRO,msjIngreso.getText());
 			}
 					
-	}*/
+	}
 	
 	/**
 	 * Se ingresa una vehiculo y sacarlo
 	 * @throws InterruptedException 
 	 */
-	/*@Test
+	@Test
 	public void appRegistrarSalidaVehiculoTest() throws InterruptedException{
 		//Arrange
-			Long tiempo=2000l;
+			Long tiempo=1000l;
 			String placa="BCD789";
-			driver.get(url);
+			driver.get(URL);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys(placa);
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
@@ -171,5 +150,47 @@ public class AppParqueadero {
 		//Assert
 				assertTrue(true);
 			}
+	}
+	
+	/**
+	 * Valida que despues de un minuto cobre lo correcto a una moto 600cc, debe ser 2500
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void validarReciboMoto() throws InterruptedException{
+		//Arrange
+			int valorEsperado=2500; 
+			String placa="BCD-123";
+			int cilindraje=600;
+			driver.get(URL);
+			WebElement webPlaca=driver.findElement(By.id("placa"));
+			WebElement webCilindraje=driver.findElement(By.id("cilindraje"));			
+			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
+			WebElement webRecPlaca=driver.findElement(By.id("recPlaca"));
+			WebElement webRecCilindraje=driver.findElement(By.id("recCilindraje"));
+			WebElement webRecValorPagar=driver.findElement(By.id("recValorPagar"));
+			WebDriverWait wait=new WebDriverWait(driver, 5);
+		//Act
+			webPlaca.sendKeys(placa);
+			webCilindraje.sendKeys(Integer.toString(cilindraje));
+			webBtnRegistrar.click();
+			Thread.sleep(61000);
+			WebElement webBtnSalir=driver.findElement(By.id("btnVehiculo"+placa));
+			webBtnSalir.click();
+			wait.until(ExpectedConditions.alertIsPresent()).accept();
+		//Assert
+			Thread.sleep(1500);
+			assertEquals(placa,webRecPlaca.getText().trim());
+			assertEquals(cilindraje,Integer.parseInt(webRecCilindraje.getText().trim()));
+			assertEquals(valorEsperado, Integer.parseInt(webRecValorPagar.getText().trim()));
+	}
+	/*
+	@Test
+	public void validarBotonImprimir(){
+		//Arrange
+			driver.get(URL);
+			//WebElement webBtnImprimir
+		//Act
+		//Assert
 	}*/
 }

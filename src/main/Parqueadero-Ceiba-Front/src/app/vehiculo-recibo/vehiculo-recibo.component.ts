@@ -16,4 +16,8 @@ export class VehiculoReciboComponent implements OnInit {
   ngOnInit() {
   }
 
+  imprimir(): void {
+    alert("Placa:" + this.recibo.placa + "\nCilindraje:" + this.recibo.cilindraje + "\n");
+  }
+
 }
