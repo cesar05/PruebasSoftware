@@ -72,15 +72,29 @@ sourceSets {
 	        runtimeClasspath += output + compileClasspath
         }
     }
+    functionalTest{
+    	java{
+	        srcDir file('src/functional-test/java')
+	        resources.srcDir files('src/test/resources')
+	        compileClasspath += sourceSets.main.output + configurations.testRuntime
+	        runtimeClasspath += output + compileClasspath
+        }
+    }
     
 }
+
+/*gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(deploy)) {
+        test.enabled = false
+    }
+}*/
 
 task unitTest(type: Test) {
     description = 'Runs the unit tests.'
     group = 'verification'
     testClassesDirs = sourceSets.unitTest.output.classesDirs
     classpath = sourceSets.unitTest.runtimeClasspath
-    mustRunAfter test
+    //mustRunAfter test
 }
 
 task integrationTest(type: Test) {
@@ -88,7 +102,14 @@ task integrationTest(type: Test) {
     group = 'verification'
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
-    mustRunAfter test
+    //mustRunAfter test
+}
+
+task functionalTest(type: Test){
+	description = 'Runs the functional tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
 }
 
 check.dependsOn integrationTest

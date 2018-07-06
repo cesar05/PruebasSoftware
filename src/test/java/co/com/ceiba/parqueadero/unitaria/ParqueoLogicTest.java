@@ -152,13 +152,8 @@ public class ParqueoLogicTest {
 	
 	@Test
 	public void disponibleParaCarrosTest(){
-		//Arrange
-			List<Parqueo> listaParqueo=new ArrayList<>(); 
-			int numPlaca=100;
-			for(int i=0;i<15;i++){
-				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Carro("BBC-"+numPlaca, 500)));
-				numPlaca++;
-			}			
+		//Arrange			
+			List<Parqueo> listaParqueo = listaDeCarrosParqueados(15);
 			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
 		//Act			
@@ -170,12 +165,7 @@ public class ParqueoLogicTest {
 	@Test
 	public void disponibleParaCarroExceptionTest(){
 		//Arrange
-			List<Parqueo> listaParqueo=new ArrayList<>(); 
-			int numPlaca=100;
-			for(int i=0;i<22;i++){
-				listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Carro("BBC-"+numPlaca, 500)));
-				numPlaca++;
-			}			
+			List<Parqueo> listaParqueo = listaDeCarrosParqueados(22);
 			Mockito.when(parqueoFacadeInterface.celdasOcupadas()).thenReturn(listaParqueo);
 			Vehiculo v=new VehiculoTestDataBuilder().buildCarro();			
 		//Act
@@ -187,6 +177,16 @@ public class ParqueoLogicTest {
 		//Assert
 				assertEquals(CUPO_NO_DISPONIBLE,e.getMessage());			
 			}
+	}
+
+	private List<Parqueo> listaDeCarrosParqueados(int cantidadDeCarros) {
+		List<Parqueo> listaParqueo=new ArrayList<>(); 
+		int numPlaca=100;
+		for(int i=0;i<cantidadDeCarros;i++){
+			listaParqueo.add(new Parqueo(new DateTime(), new DateTime(), 5000, new Carro("BBC-"+numPlaca, 500)));
+			numPlaca++;
+		}
+		return listaParqueo;
 	}
 	
 	@Test

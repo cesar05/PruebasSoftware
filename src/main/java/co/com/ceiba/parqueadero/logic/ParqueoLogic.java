@@ -23,6 +23,12 @@ import co.com.ceiba.parqueadero.interfaces.IParqueo;
 @Component
 public class ParqueoLogic implements IParqueo{
 
+	private static final int MINUTOS_EN_UN_DIA = 1440;
+
+	private static final int UNA_HORA_EN_MINUTOS = 60;
+
+	private static final int NUEVE_HORAS_EN_MINUTOS = 540;
+
 	@Autowired
 	VehiculoFacadeInterface vehiculoFacadeInterface;
 	
@@ -36,7 +42,7 @@ public class ParqueoLogic implements IParqueo{
 	
 	private DateTime fechaActual;
 	
-	private static final Precio precio=new Precio(500, 1000, 4000, 8000, 2000);
+	private Precio precio;
 	
 			
 	public ParqueoLogic() {
@@ -59,47 +65,46 @@ public class ParqueoLogic implements IParqueo{
 
 	
 	@Override
-	public boolean ingresar(Vehiculo v) {		
-		this.disponible(v);
-		this.sinRestricciones(v,fechaActual.getDayOfWeek());		
-		Parqueo parqueo=new Parqueo(fechaActual, null, 0, v);
+	public boolean ingresar(Vehiculo vehiculo) {		
+		this.disponible(vehiculo);
+		this.sinRestricciones(vehiculo,fechaActual.getDayOfWeek());		
+		Parqueo parqueo=new Parqueo(fechaActual, null, 0, vehiculo);
 		//Valido que el vehiculo no este en el parqueado
-		Parqueo parqueado=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+		Parqueo parqueado=parqueoFacadeInterface.findByPlaca(vehiculo.getPlaca());
 		if(parqueado!=null){
 			throw new ParqueaderoException(VEHICULO_PARQUEADO);
 		}
-		vehiculoFacadeInterface.grabar(v);		
+		vehiculoFacadeInterface.grabar(vehiculo);		
 		parqueoFacadeInterface.grabar(parqueo);				
 		return true;		
 	}
 
 	@Override
-	public double registrarSalida(Vehiculo v) {		
-		Parqueo p=parqueoFacadeInterface.findByPlaca(v.getPlaca());
+	public double registrarSalida(Vehiculo vehiculo) {		
+		Parqueo p=parqueoFacadeInterface.findByPlaca(vehiculo.getPlaca());
 		if(p==null){
 			throw new ParqueaderoException(VEHICULO_NO_ESTA_PARQUEADO);
 		}				
-		v.setCilindraje(p.getVehiculo().getCilindraje());
+		vehiculo.setCilindraje(p.getVehiculo().getCilindraje());
 		p.setFechaSalida(this.fechaActual);		
-		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), p.getFechaSalida(), v));		
+		p.setValorPagar(this.calcularValorPagar(p.getFechaIngreso(), p.getFechaSalida(), vehiculo));		
 		parqueoFacadeInterface.salir(p);
 		return p.getValorPagar();
 	}
 
 	@Override
-	public boolean sinRestricciones(Vehiculo v,int dia) {
-		if(v!=null){
-			String letra=v.getPlaca().substring(0,1);
-			if(letra.equalsIgnoreCase("A")){
-				if(dia!=1 && dia!=7){
-					throw new ParqueaderoException(CON_RESTRICCIONES);					
-				}				
-			}
-			return true;
-		}
-		else{
+	public boolean sinRestricciones(Vehiculo vehiculo,int dia) {
+		
+		if( vehiculo==null ){
 			throw new ParqueaderoException(CON_RESTRICCIONES);
 		}
+		
+		String letra=vehiculo.getPlaca().substring(0,1);
+		if(letra.equalsIgnoreCase("A") && dia!=1 && dia!=7){
+			throw new ParqueaderoException(CON_RESTRICCIONES);					
+		}
+		return true;
+		
 	}
 
 	@Override
@@ -126,31 +131,25 @@ public class ParqueoLogic implements IParqueo{
 		return true;
 	}
 	
-	public double calcularValorPagar(DateTime fechaIngreso,DateTime fechaSalida,Vehiculo v){
-		double valorPagar=0;		
+	public double calcularValorPagar(DateTime fechaIngreso,DateTime fechaSalida, Vehiculo v){
+		double valorPagar=0;
 		Duration tiempoDeParqueo=new Duration(fechaIngreso,fechaSalida);
-		if(tiempoDeParqueo.getStandardMinutes()<540){
-			int horas=(int)(Math.ceil((float)tiempoDeParqueo.getStandardMinutes()/60));
-			valorPagar=v instanceof Moto?horas*precio.getValorHoraMoto():horas*precio.getValorHoraCarro();
-		}
-		else{	
-			Long dias=tiempoDeParqueo.getStandardDays();
-			if(dias==0){
-				valorPagar=v instanceof Moto?precio.getValorDiaMoto():precio.getValorDiaCarro();
-			}
-			else{
-				Long minutosUltimoDia=tiempoDeParqueo.getStandardMinutes()-dias*1440;
-				int horasUlitmoDia=(int)(Math.ceil((float)(tiempoDeParqueo.getStandardMinutes()-dias*1440)/60));
-				if(minutosUltimoDia>=540){
-					dias+=1;
-					horasUlitmoDia=0;
-				}	
-				valorPagar=v instanceof Moto?dias*precio.getValorDiaMoto()+horasUlitmoDia*precio.getValorHoraMoto()
-											:dias*precio.getValorDiaCarro()+horasUlitmoDia*precio.getValorHoraCarro();
-			}			
+		this.precio=new Precio().getPrecio(v instanceof Moto?0:1);	
+				
+		Long dias=tiempoDeParqueo.getStandardDays();
+		Long minutosUltimoDia=tiempoDeParqueo.getStandardMinutes()-dias*MINUTOS_EN_UN_DIA;
+		int horas=0;	
+		
+		if(minutosUltimoDia>=NUEVE_HORAS_EN_MINUTOS) {
+			dias++;	
+			minutosUltimoDia=0l;
 		}
 		
-		valorPagar +=v instanceof Moto && v.getCilindraje()>500?precio.getValorAdicionalMotos():0;
+		horas=(int)Math.ceil((float)minutosUltimoDia/(float)UNA_HORA_EN_MINUTOS);
+		
+		valorPagar=dias*this.precio.getValorDia()+horas*this.precio.getValorHora();
+		
+		valorPagar +=v.getCilindraje()>500?precio.getValorAdicional():0;
 		
 		return valorPagar;
 	}
