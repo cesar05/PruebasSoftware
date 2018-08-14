@@ -39,7 +39,7 @@ public class AppParqueadero {
 	@LocalServerPort
 	private static String PUERTO;	
 	*/
-	private static final String URL="http://localhost:8080/";
+	private static final String URL="http://localhost:8082/";
 	
 	@Autowired
 	private RespositorioParqueo repositorioParqueo;
@@ -78,15 +78,20 @@ public class AppParqueadero {
 		this.repositorioParqueo.deleteAll();
 	}
 	
+	public void parar() throws InterruptedException{
+		Thread.sleep(1000);
+	}
 	/**
 	 * Se ingresa una vehiculo
+	 * @throws InterruptedException 
 	 */
 	@Test
-	public void appIngresarVehiculoTest(){
+	public void appIngresarVehiculoTest() throws InterruptedException{
 		//Arrange		
-			driver.get(URL);		
+			driver.get(URL);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys("BCD787");
+			this.parar();
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 		//Act
 			webBtnRegistrar.click();
@@ -98,9 +103,10 @@ public class AppParqueadero {
 	
 	/**
 	 * Se registran 20 vehiculos
-	 */
+	 * @throws InterruptedException 
+	 */	
 	@Test
-	public void appIngresar100VehiculoTest(){
+	public void appIngresar100VehiculoTest() throws InterruptedException{
 		//Arrange
 			driver.get(URL);
 			WebElement webPlaca=driver.findElement(By.id("placa"));			
@@ -110,6 +116,7 @@ public class AppParqueadero {
 		//Act
 			for(int i=0;i<20;i++){
 				webPlaca.sendKeys("BCD"+i);
+				this.parar();
 				webBtnRegistrar.click();
 				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 				msjIngreso=driver.findElement(By.id("msjIngreso"));
@@ -123,14 +130,15 @@ public class AppParqueadero {
 	 * Se ingresa una vehiculo y sacarlo
 	 * @throws InterruptedException 
 	 */
+	
 	@Test
 	public void appRegistrarSalidaVehiculoTest() throws InterruptedException{
 		//Arrange
-			Long tiempo=1000l;
 			String placa="BCD789";
 			driver.get(URL);
 			WebElement webPlaca=driver.findElement(By.id("placa"));
 			webPlaca.sendKeys(placa);
+			this.parar();
 			WebElement webBtnRegistrar=driver.findElement(By.id("btnRegistrar"));
 			WebDriverWait wait=new WebDriverWait(driver, 5);			
 		//Act
@@ -139,7 +147,7 @@ public class AppParqueadero {
 			WebElement btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));			
 			btnVehiculo.click();				
 			wait.until(ExpectedConditions.alertIsPresent()).accept();
-			Thread.sleep(tiempo);
+			this.parar();
 			try{
 				btnVehiculo=driver.findElement(By.id("btnVehiculo"+placa));				
 				fail();

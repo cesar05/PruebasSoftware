@@ -7,7 +7,7 @@ import { VehiculoIngresarComponent } from './vehiculo-ingresar/vehiculo-ingresar
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Ceiba Software House';
+  title = 'UdeA';
 
   ngOnInit() {
   }

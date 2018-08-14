@@ -15,7 +15,7 @@ export class VehiculosService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
-  uri = 'http://localhost:8080/parqueo/vehiculo';
+  uri = 'http://localhost:8082/parqueo/vehiculo';
 
   getVehiculosParqueados(): Observable<RegistroParqueo[]> {
     return this.http.get<RegistroParqueo[]>(this.uri, this.httpOptions);
